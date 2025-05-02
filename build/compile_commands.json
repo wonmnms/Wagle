@@ -1,0 +1,27 @@
+[
+{
+  "directory": "/home/wonmn/wagle/build",
+  "command": "/usr/bin/g++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -I/home/wonmn/wagle/include -g -o CMakeFiles/wagle_server.dir/src/server/server_main.cpp.o -c /home/wonmn/wagle/src/server/server_main.cpp",
+  "file": "/home/wonmn/wagle/src/server/server_main.cpp"
+},
+{
+  "directory": "/home/wonmn/wagle/build",
+  "command": "/usr/bin/g++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -I/home/wonmn/wagle/include -g -o CMakeFiles/wagle_server.dir/src/common/message.cpp.o -c /home/wonmn/wagle/src/common/message.cpp",
+  "file": "/home/wonmn/wagle/src/common/message.cpp"
+},
+{
+  "directory": "/home/wonmn/wagle/build",
+  "command": "/usr/bin/g++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -I/home/wonmn/wagle/include -g -o CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.o -c /home/wonmn/wagle/src/common/chat_room.cpp",
+  "file": "/home/wonmn/wagle/src/common/chat_room.cpp"
+},
+{
+  "directory": "/home/wonmn/wagle/build",
+  "command": "/usr/bin/g++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -I/home/wonmn/wagle/include -g -o CMakeFiles/wagle_client.dir/src/client/client_main.cpp.o -c /home/wonmn/wagle/src/client/client_main.cpp",
+  "file": "/home/wonmn/wagle/src/client/client_main.cpp"
+},
+{
+  "directory": "/home/wonmn/wagle/build",
+  "command": "/usr/bin/g++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -I/home/wonmn/wagle/include -g -o CMakeFiles/wagle_client.dir/src/common/message.cpp.o -c /home/wonmn/wagle/src/common/message.cpp",
+  "file": "/home/wonmn/wagle/src/common/message.cpp"
+}
+]
