@@ -4,12 +4,13 @@
 
 namespace wagle {
 
-// 메시지 타입 정의
+// MessageType에 USER_COUNT 추가
 enum class MessageType {
-    CONNECT,     // 사용자 연결
-    DISCONNECT,  // 사용자 연결 해제
-    CHAT_MSG,    // 채팅 메시지
-    USER_LIST    // 사용자 목록
+    CONNECT,    // 사용자 연결
+    DISCONNECT, // 사용자 연결 해제
+    CHAT_MSG,   // 채팅 메시지
+    USER_LIST,  // 사용자 목록
+    USER_COUNT  // 사용자 수 업데이트
 };
 
 // 메시지 클래스

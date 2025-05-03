@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/wonmn/wagle/src/client/client_main.cpp" "CMakeFiles/wagle_client.dir/src/client/client_main.cpp.o" "gcc" "CMakeFiles/wagle_client.dir/src/client/client_main.cpp.o.d"
-  "/home/wonmn/wagle/src/common/message.cpp" "CMakeFiles/wagle_client.dir/src/common/message.cpp.o" "gcc" "CMakeFiles/wagle_client.dir/src/common/message.cpp.o.d"
+  "/home/wonmnms/Wagle/src/client/client_main.cpp" "CMakeFiles/wagle_client.dir/src/client/client_main.cpp.o" "gcc" "CMakeFiles/wagle_client.dir/src/client/client_main.cpp.o.d"
+  "/home/wonmnms/Wagle/src/common/message.cpp" "CMakeFiles/wagle_client.dir/src/common/message.cpp.o" "gcc" "CMakeFiles/wagle_client.dir/src/common/message.cpp.o.d"
   )
 
 # Targets to which this target links.

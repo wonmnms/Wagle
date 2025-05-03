@@ -1,117 +1,62 @@
 #pragma once
 #include <boost/asio.hpp>
-#include <iostream>
 #include <memory>
-
+#include <iostream>
+#include <ncurses.h>
+#include <ctime>
+#include <cstdarg>
 #include "chat/chat_room.h"
 #include "chat/user.h"
 
 namespace wagle {
 
+// 서버 UI 관련 전역 변수
+extern WINDOW* main_win;
+extern WINDOW* status_win;
+extern WINDOW* log_win;
+
+// 총 접속 시도 수
+extern int total_connections;
+
+// 함수 선언
+void init_server_ui();
+void cleanup_server_ui();
+void update_status_window(size_t user_count);
+void add_log_message(const char* format, ...);
+
+// 세션 클래스
 class Session : public std::enable_shared_from_this<Session> {
-   public:
+public:
     using tcp = boost::asio::ip::tcp;
-
-    Session(tcp::socket socket, ChatRoom& room)
-        : socket_(std::move(socket)), room_(room) {}
-
-    void start() {
-        // 우선 사용자 이름을 받음
-        readUsername();
-    }
-
-   private:
-    void readUsername() {
-        auto self(shared_from_this());
-        boost::asio::async_read_until(
-            socket_, buffer_, '\n',
-            [this, self](boost::system::error_code ec, std::size_t /*length*/) {
-                if (!ec) {
-                    // 이름 추출
-                    std::string data;
-                    std::istream is(&buffer_);
-                    std::getline(is, data);
-
-                    // CONNECT 메시지인지 확인
-                    Message msg = Message::deserialize(data);
-                    if (msg.getType() == MessageType::CONNECT) {
-                        username_ = msg.getContent();
-
-                        // 사용자 생성 및 채팅방 참여
-                        auto user = std::make_shared<User>(std::move(socket_),
-                                                           username_);
-                        user_ = user;
-                        room_.join(user);
-
-                        // 메시지 읽기 시작
-                        readMessage();
-                    }
-                }
-            });
-    }
-
-    void readMessage() {
-        auto self(shared_from_this());
-        boost::asio::async_read_until(
-            user_->getSocket(), buffer_, '\n',
-            [this, self](boost::system::error_code ec, std::size_t /*length*/) {
-                if (!ec) {
-                    // 메시지 추출
-                    std::string data;
-                    std::istream is(&buffer_);
-                    std::getline(is, data);
-
-                    // 메시지 파싱 및 처리
-                    Message msg = Message::deserialize(data);
-                    if (msg.getType() == MessageType::CHAT_MSG) {
-                        // 발신자 정보 추가하여 브로드캐스트
-                        Message broadcast_msg(MessageType::CHAT_MSG, username_,
-                                              msg.getContent());
-                        room_.broadcast(broadcast_msg);
-                    }
-
-                    // 다음 메시지 읽기
-                    readMessage();
-                } else {
-                    // 연결 종료
-                    room_.leave(user_);
-                }
-            });
-    }
-
+    
+    Session(tcp::socket socket, ChatRoom& room);
+    void start();
+    
+private:
+    void readUsername();
+    void readMessage();
+    
     tcp::socket socket_;
     ChatRoom& room_;
     boost::asio::streambuf buffer_;
     std::string username_;
+    std::string client_address_;
     std::shared_ptr<User> user_;
 };
 
+// 소켓 매니저 클래스
 class SocketManager {
-   public:
+public:
     using tcp = boost::asio::ip::tcp;
-
-    SocketManager(boost::asio::io_context& io_context,
-                  const tcp::endpoint& endpoint)
-        : acceptor_(io_context, endpoint) {
-        startAccept();
-    }
-
-   private:
-    void startAccept() {
-        acceptor_.async_accept([this](boost::system::error_code ec,
-                                      tcp::socket socket) {
-            if (!ec) {
-                std::cout << "New client connected" << std::endl;
-                std::make_shared<Session>(std::move(socket), room_)->start();
-            }
-
-            // 다음 연결 대기
-            startAccept();
-        });
-    }
-
+    
+    SocketManager(boost::asio::io_context& io_context, const tcp::endpoint& endpoint);
+    ~SocketManager();
+    
+private:
+    void startAccept();
+    
     tcp::acceptor acceptor_;
     ChatRoom room_;
 };
 
-}  // namespace wagle
+} // namespace wagle

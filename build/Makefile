@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/wonmn/wagle
+CMAKE_SOURCE_DIR = /home/wonmnms/Wagle
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/wonmn/wagle/build
+CMAKE_BINARY_DIR = /home/wonmnms/Wagle/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wonmn/wagle/build/CMakeFiles /home/wonmn/wagle/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wonmnms/Wagle/build/CMakeFiles /home/wonmnms/Wagle/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wonmn/wagle/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wonmnms/Wagle/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -241,6 +241,30 @@ src/server/server_main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/wagle_server.dir/build.make CMakeFiles/wagle_server.dir/src/server/server_main.cpp.s
 .PHONY : src/server/server_main.cpp.s
 
+src/server/socket_manager.o: src/server/socket_manager.cpp.o
+.PHONY : src/server/socket_manager.o
+
+# target to build an object file
+src/server/socket_manager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/wagle_server.dir/build.make CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.o
+.PHONY : src/server/socket_manager.cpp.o
+
+src/server/socket_manager.i: src/server/socket_manager.cpp.i
+.PHONY : src/server/socket_manager.i
+
+# target to preprocess a source file
+src/server/socket_manager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/wagle_server.dir/build.make CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.i
+.PHONY : src/server/socket_manager.cpp.i
+
+src/server/socket_manager.s: src/server/socket_manager.cpp.s
+.PHONY : src/server/socket_manager.s
+
+# target to generate assembly for a file
+src/server/socket_manager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/wagle_server.dir/build.make CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.s
+.PHONY : src/server/socket_manager.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -263,6 +287,9 @@ help:
 	@echo "... src/server/server_main.o"
 	@echo "... src/server/server_main.i"
 	@echo "... src/server/server_main.s"
+	@echo "... src/server/socket_manager.o"
+	@echo "... src/server/socket_manager.i"
+	@echo "... src/server/socket_manager.s"
 .PHONY : help
 
 

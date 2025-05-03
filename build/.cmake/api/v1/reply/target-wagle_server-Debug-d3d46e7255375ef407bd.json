@@ -12,6 +12,7 @@
 		[
 			"add_executable",
 			"target_link_libraries",
+			"add_definitions",
 			"include_directories"
 		],
 		"files" : 
@@ -26,19 +27,31 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 8,
+				"line" : 14,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 24,
+				"line" : 31,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 21,
+				"line" : 10,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 7,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 28,
 				"parent" : 0
 			}
 		]
@@ -61,13 +74,25 @@
 				{
 					"backtrace" : 2,
 					"define" : "BOOST_SYSTEM_DYN_LINK"
+				},
+				{
+					"backtrace" : 3,
+					"define" : "NCURSES_WIDECHAR=1"
+				},
+				{
+					"backtrace" : 3,
+					"define" : "_XOPEN_SOURCE_EXTENDED"
 				}
 			],
 			"includes" : 
 			[
 				{
-					"backtrace" : 3,
-					"path" : "/home/wonmn/wagle/include"
+					"backtrace" : 4,
+					"path" : "/usr/include/ncursesw"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "/home/wonmnms/Wagle/include"
 				}
 			],
 			"language" : "CXX",
@@ -83,7 +108,8 @@
 			[
 				0,
 				1,
-				2
+				2,
+				3
 			]
 		}
 	],
@@ -109,6 +135,11 @@
 				"backtrace" : 2,
 				"fragment" : "-lpthread",
 				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-lncursesw",
+				"role" : "libraries"
 			}
 		],
 		"language" : "CXX"
@@ -128,7 +159,8 @@
 			[
 				0,
 				1,
-				2
+				2,
+				3
 			]
 		}
 	],
@@ -138,6 +170,12 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "src/server/server_main.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/server/socket_manager.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
