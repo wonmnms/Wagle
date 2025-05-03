@@ -33,11 +33,11 @@ void init_server_ui() {
     mvwprintw(main_win, 0, 2, " Wagle Chat Server ");
     
     // 상태 윈도우 설정 (우측 상단)
-    status_win = newwin(5, 30, 2, max_x - 32);
+    status_win = newwin(4, 30, 2, max_x - 32);
     box(status_win, 0, 0);
     mvwprintw(status_win, 0, 2, " Server Status ");
     
-    // 로그 윈도우 설정
+    // 로그 메시지만 표시하도록 수정 (메시지 내역 제거)
     log_win = newwin(max_y - 4, max_x - 35, 2, 2);
     scrollok(log_win, TRUE);
     
@@ -64,10 +64,10 @@ void update_status_window(size_t user_count) {
     mvwprintw(status_win, 0, 2, " Server Status ");
     
     // 사용자 수 표시
-    mvwprintw(status_win, 2, 2, "Online Users: %zu", user_count);
+    mvwprintw(status_win, 1, 2, "Online Users: %zu", user_count);
     
     // 총 연결 수 표시
-    mvwprintw(status_win, 3, 2, "Total Connections: %d", total_connections);
+    mvwprintw(status_win, 2, 2, "Total Connections: %d", total_connections);
     
     // 화면 업데이트
     wrefresh(status_win);
@@ -164,9 +164,9 @@ void Session::readMessage() {
                 // 메시지 파싱 및 처리
                 Message msg = Message::deserialize(data);
                 if (msg.getType() == MessageType::CHAT_MSG) {
-                    // 로그 출력
-                    add_log_message("Message from %s: %s", 
-                                  username_.c_str(), msg.getContent().c_str());
+                    // 로그 출력 부분 제거 (채팅 내용을 서버 화면에 표시하지 않음)
+                    // add_log_message("Message from %s: %s", 
+                    //              username_.c_str(), msg.getContent().c_str());
                     
                     // 발신자 정보 추가하여 브로드캐스트
                     Message broadcast_msg(MessageType::CHAT_MSG, username_, msg.getContent());

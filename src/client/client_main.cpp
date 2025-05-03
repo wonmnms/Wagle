@@ -18,10 +18,31 @@ WINDOW *chat_win = nullptr;
 WINDOW *input_win = nullptr;
 WINDOW *user_count_win = nullptr;
 
+// 입력 포커스를 입력창으로 이동시키는 함수
+void set_focus_to_input() {
+    // 입력창 활성화
+    keypad(input_win, TRUE);
+    // 커서 위치 설정
+    wmove(input_win, 1, 2);
+    // 커서 표시
+    curs_set(1);
+    // 화면 갱신
+    wrefresh(input_win);
+}
+
 // 현재 사용자 수
 int current_user_count = 0;
 
-// ncurses 초기화 함수
+// 타임스탬프 함수
+std::string get_timestamp() {
+    time_t now = time(nullptr);
+    struct tm* timeinfo = localtime(&now);
+    char time_str[10];
+    strftime(time_str, sizeof(time_str), "%H:%M:%S", timeinfo);
+    return std::string(time_str);
+}
+
+// ncurses 초기화 함수 수정 - 색상 추가 및 유저카운트 윈도우 색상 변경
 void init_ncurses() {
     // UTF-8 한글 지원 설정
     setlocale(LC_ALL, "");
@@ -35,13 +56,14 @@ void init_ncurses() {
     // 색상 설정
     start_color();
     init_pair(1, COLOR_WHITE, COLOR_BLUE);
+    init_pair(2, COLOR_BLUE, COLOR_BLACK);  // 시스템 메시지용 파란색
     
     // 화면 크기 가져오기
     int max_y, max_x;
     getmaxyx(stdscr, max_y, max_x);
     
     // 채팅 윈도우 생성
-    chat_win = newwin(max_y - 3, max_x, 0, 0);
+    chat_win = newwin(max_y - 3, max_x - USER_COUNT_WIDTH - 2, 0, 0);
     scrollok(chat_win, TRUE);
     
     // 입력 윈도우 생성
@@ -49,9 +71,8 @@ void init_ncurses() {
     box(input_win, 0, 0);
     mvwprintw(input_win, 0, 2, " Input ");
     
-    // 사용자 수 윈도우 생성 (우측 상단)
-    user_count_win = newwin(USER_COUNT_HEIGHT, USER_COUNT_WIDTH, 1, max_x - USER_COUNT_WIDTH - 1);
-    wbkgd(user_count_win, COLOR_PAIR(1));
+    // 사용자 수 윈도우 생성 (우측) - 기본 터미널 색상으로 변경
+    user_count_win = newwin(USER_COUNT_HEIGHT, USER_COUNT_WIDTH, 0, max_x - USER_COUNT_WIDTH);
     box(user_count_win, 0, 0);
     mvwprintw(user_count_win, 0, 2, " Online Users ");
     mvwprintw(user_count_win, 1, 2, "Count: 0");
@@ -61,9 +82,12 @@ void init_ncurses() {
     wrefresh(chat_win);
     wrefresh(input_win);
     wrefresh(user_count_win);
+    
+    // 입력창에 포커스 설정
+    set_focus_to_input();
 }
 
-// 사용자 수 업데이트 함수
+// 사용자 수 업데이트 함수 수정
 void update_user_count(int count) {
     current_user_count = count;
     werase(user_count_win);
@@ -71,18 +95,57 @@ void update_user_count(int count) {
     mvwprintw(user_count_win, 0, 2, " Online Users ");
     mvwprintw(user_count_win, 1, 2, "Count: %d", count);
     wrefresh(user_count_win);
+    
+    // 사용자 수 업데이트 후 입력창으로 포커스 복귀
+    set_focus_to_input();
 }
 
-// 채팅 메시지 표시 함수
+// 채팅 메시지 표시 함수 수정 (타임스탬프 추가)
 void print_chat_message(const std::string& sender, const std::string& content) {
-    wprintw(chat_win, "%s: %s\n", sender.c_str(), content.c_str());
+    std::string timestamp = get_timestamp();
+    wprintw(chat_win, "[%s] %s: %s\n", timestamp.c_str(), sender.c_str(), content.c_str());
     wrefresh(chat_win);
+    
+    // 메시지 출력 후 입력창으로 포커스 복귀
+    set_focus_to_input();
 }
 
-// 시스템 메시지 표시 함수
+// 시스템 메시지 표시 함수 수정 (파란색 및 타임스탬프 추가)
 void print_system_message(const std::string& message) {
-    wprintw(chat_win, "** %s **\n", message.c_str());
+    std::string timestamp = get_timestamp();
+    
+    // 파란색으로 시스템 메시지 출력
+    wattron(chat_win, COLOR_PAIR(2));
+    wprintw(chat_win, "[%s] ** %s **\n", timestamp.c_str(), message.c_str());
+    wattroff(chat_win, COLOR_PAIR(2));
+    
     wrefresh(chat_win);
+    
+    // 메시지 출력 후 입력창으로 포커스 복귀
+    set_focus_to_input();
+}
+
+void setup_username_screen() {
+    clear();
+    refresh();
+    
+    // 화면 크기 가져오기
+    int max_y, max_x;
+    getmaxyx(stdscr, max_y, max_x);
+    
+    // 닉네임 입력 창 중앙에 배치
+    int height = 5;
+    int width = 40;
+    int starty = (max_y - height) / 2;
+    int startx = (max_x - width) / 2;
+    
+    // 입력 윈도우를 중앙에 위치시킴
+    input_win = newwin(height, width, starty, startx);
+    box(input_win, 0, 0);
+    mvwprintw(input_win, 0, 2, " Enter your username ");
+    mvwprintw(input_win, 2, (width - 21) / 2, "Enter your username: ");
+    
+    wrefresh(input_win);
 }
 
 class ChatClient {
@@ -203,12 +266,11 @@ int main(int argc, char* argv[]) {
         // IO 스레드 시작
         std::thread io_thread([&io_context]() { io_context.run(); });
         
+        // 닉네임 입력 화면 설정
+        setup_username_screen();
+
         // 사용자 이름 입력
-        werase(input_win);
-        box(input_win, 0, 0);
-        mvwprintw(input_win, 0, 2, " Enter your username ");
-        wmove(input_win, 1, 2);
-        wrefresh(input_win);
+        wmove(input_win, 2, (40 - 21) / 2 + 21);  // 입력 위치로 이동
         echo();  // 입력 내용 표시
         char username_buf[32] = {0};
         wgetnstr(input_win, username_buf, sizeof(username_buf) - 1);
@@ -220,12 +282,10 @@ int main(int argc, char* argv[]) {
             username = "Anonymous";
         }
 
-        // 입력창 지우기
-        werase(input_win);
-        box(input_win, 0, 0);
-        mvwprintw(input_win, 0, 2, " Chat Input ");
-        wrefresh(input_win);
-
+        // 채팅 화면으로 전환
+        endwin();  // 기존 ncurses 환경 종료
+        init_ncurses();  // ncurses 환경 다시 초기화
+        
         // 연결 메시지 전송
         client.write(wagle::Message(wagle::MessageType::CONNECT, username));
 
@@ -233,17 +293,23 @@ int main(int argc, char* argv[]) {
         char input[256];
         while (true) {
             // 입력 받기
-            wmove(input_win, 1, 1);
+            wmove(input_win, 1, 2);
             wclrtoeol(input_win);
             box(input_win, 0, 0);
             mvwprintw(input_win, 0, 2, " Input ");
-            wmove(input_win, 1, 1);
-            wrefresh(input_win);
+            
+            // 포커스 설정
+            set_focus_to_input();
+            
+            // 기존 방식으로 입력 받기
             echo();
             wgetnstr(input_win, input, sizeof(input) - 1);
             noecho();
             
             std::string line(input);
+            
+            // 사용자 수 윈도우 다시 그리기 (입력 중 가려질 수 있으므로)
+            update_user_count(current_user_count);
             
             if (line == "/quit")
                 break;
@@ -251,7 +317,7 @@ int main(int argc, char* argv[]) {
             // 채팅 메시지 전송
             client.write(wagle::Message(wagle::MessageType::CHAT_MSG, username, line));
         }
-        
+
         // 종료
         client.close();
         io_thread.join();

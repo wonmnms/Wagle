@@ -4,13 +4,13 @@
 
 namespace wagle {
 
-// MessageType에 USER_COUNT 추가
+// 메시지 타입 정의
 enum class MessageType {
-    CONNECT,    // 사용자 연결
-    DISCONNECT, // 사용자 연결 해제
-    CHAT_MSG,   // 채팅 메시지
-    USER_LIST,  // 사용자 목록
-    USER_COUNT  // 사용자 수 업데이트
+    CONNECT,     // 사용자 연결
+    DISCONNECT,  // 사용자 연결 해제
+    CHAT_MSG,    // 채팅 메시지
+    USER_LIST,   // 사용자 목록
+    USER_COUNT   // 사용자 수 추가
 };
 
 // 메시지 클래스
@@ -26,6 +26,9 @@ class Message {
 
     // 역직렬화: 문자열을 메시지로 변환
     static Message deserialize(const std::string& data);
+
+    // UTF-8 문자열의 바이트 길이 계산
+    static std::size_t utf8Length(const std::string& str);
 
     MessageType getType() const { return type_; }
     std::string getSender() const { return sender_; }
