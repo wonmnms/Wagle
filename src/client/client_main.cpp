@@ -133,7 +133,8 @@ int main(int argc, char* argv[]) {
             }
 
             // 채팅 메시지 전송
-            client.write(wagle::Message(wagle::MessageType::CHAT_MSG, line));
+            client.write(
+                wagle::Message(wagle::MessageType::CHAT_MSG, username, line));
         }
 
         // 종료
