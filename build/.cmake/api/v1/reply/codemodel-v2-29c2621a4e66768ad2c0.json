@@ -6,7 +6,7 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"jsonFile" : "directory-.-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.10"
@@ -20,7 +20,7 @@
 					]
 				}
 			],
-			"name" : "Debug",
+			"name" : "",
 			"projects" : 
 			[
 				{
@@ -41,14 +41,14 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "wagle_client::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-wagle_client-Debug-15f6ab04e91c35707b46.json",
+					"jsonFile" : "target-wagle_client-642d9611d267cc90b98b.json",
 					"name" : "wagle_client",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "wagle_server::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-wagle_server-Debug-d3d46e7255375ef407bd.json",
+					"jsonFile" : "target-wagle_server-f93a554ca54e7b12b8e7.json",
 					"name" : "wagle_server",
 					"projectIndex" : 0
 				}
@@ -58,8 +58,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/wonmnms/Wagle/build",
-		"source" : "/home/wonmnms/Wagle"
+		"build" : "/home/wlstjrdl122/projects/Wagle/build",
+		"source" : "/home/wlstjrdl122/projects/Wagle"
 	},
 	"version" : 
 	{

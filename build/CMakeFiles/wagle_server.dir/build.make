@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/wonmnms/Wagle
+CMAKE_SOURCE_DIR = /home/wlstjrdl122/projects/Wagle
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/wonmnms/Wagle/build
+CMAKE_BINARY_DIR = /home/wlstjrdl122/projects/Wagle/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/wagle_server.dir/depend.make
@@ -72,58 +72,58 @@ include CMakeFiles/wagle_server.dir/flags.make
 CMakeFiles/wagle_server.dir/src/server/server_main.cpp.o: CMakeFiles/wagle_server.dir/flags.make
 CMakeFiles/wagle_server.dir/src/server/server_main.cpp.o: ../src/server/server_main.cpp
 CMakeFiles/wagle_server.dir/src/server/server_main.cpp.o: CMakeFiles/wagle_server.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wonmnms/Wagle/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/wagle_server.dir/src/server/server_main.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wagle_server.dir/src/server/server_main.cpp.o -MF CMakeFiles/wagle_server.dir/src/server/server_main.cpp.o.d -o CMakeFiles/wagle_server.dir/src/server/server_main.cpp.o -c /home/wonmnms/Wagle/src/server/server_main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wlstjrdl122/projects/Wagle/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/wagle_server.dir/src/server/server_main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wagle_server.dir/src/server/server_main.cpp.o -MF CMakeFiles/wagle_server.dir/src/server/server_main.cpp.o.d -o CMakeFiles/wagle_server.dir/src/server/server_main.cpp.o -c /home/wlstjrdl122/projects/Wagle/src/server/server_main.cpp
 
 CMakeFiles/wagle_server.dir/src/server/server_main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/wagle_server.dir/src/server/server_main.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wonmnms/Wagle/src/server/server_main.cpp > CMakeFiles/wagle_server.dir/src/server/server_main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wlstjrdl122/projects/Wagle/src/server/server_main.cpp > CMakeFiles/wagle_server.dir/src/server/server_main.cpp.i
 
 CMakeFiles/wagle_server.dir/src/server/server_main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/wagle_server.dir/src/server/server_main.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wonmnms/Wagle/src/server/server_main.cpp -o CMakeFiles/wagle_server.dir/src/server/server_main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wlstjrdl122/projects/Wagle/src/server/server_main.cpp -o CMakeFiles/wagle_server.dir/src/server/server_main.cpp.s
 
 CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.o: CMakeFiles/wagle_server.dir/flags.make
 CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.o: ../src/server/socket_manager.cpp
 CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.o: CMakeFiles/wagle_server.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wonmnms/Wagle/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.o -MF CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.o.d -o CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.o -c /home/wonmnms/Wagle/src/server/socket_manager.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wlstjrdl122/projects/Wagle/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.o -MF CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.o.d -o CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.o -c /home/wlstjrdl122/projects/Wagle/src/server/socket_manager.cpp
 
 CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wonmnms/Wagle/src/server/socket_manager.cpp > CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wlstjrdl122/projects/Wagle/src/server/socket_manager.cpp > CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.i
 
 CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wonmnms/Wagle/src/server/socket_manager.cpp -o CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wlstjrdl122/projects/Wagle/src/server/socket_manager.cpp -o CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.s
 
 CMakeFiles/wagle_server.dir/src/common/message.cpp.o: CMakeFiles/wagle_server.dir/flags.make
 CMakeFiles/wagle_server.dir/src/common/message.cpp.o: ../src/common/message.cpp
 CMakeFiles/wagle_server.dir/src/common/message.cpp.o: CMakeFiles/wagle_server.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wonmnms/Wagle/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/wagle_server.dir/src/common/message.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wagle_server.dir/src/common/message.cpp.o -MF CMakeFiles/wagle_server.dir/src/common/message.cpp.o.d -o CMakeFiles/wagle_server.dir/src/common/message.cpp.o -c /home/wonmnms/Wagle/src/common/message.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wlstjrdl122/projects/Wagle/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/wagle_server.dir/src/common/message.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wagle_server.dir/src/common/message.cpp.o -MF CMakeFiles/wagle_server.dir/src/common/message.cpp.o.d -o CMakeFiles/wagle_server.dir/src/common/message.cpp.o -c /home/wlstjrdl122/projects/Wagle/src/common/message.cpp
 
 CMakeFiles/wagle_server.dir/src/common/message.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/wagle_server.dir/src/common/message.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wonmnms/Wagle/src/common/message.cpp > CMakeFiles/wagle_server.dir/src/common/message.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wlstjrdl122/projects/Wagle/src/common/message.cpp > CMakeFiles/wagle_server.dir/src/common/message.cpp.i
 
 CMakeFiles/wagle_server.dir/src/common/message.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/wagle_server.dir/src/common/message.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wonmnms/Wagle/src/common/message.cpp -o CMakeFiles/wagle_server.dir/src/common/message.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wlstjrdl122/projects/Wagle/src/common/message.cpp -o CMakeFiles/wagle_server.dir/src/common/message.cpp.s
 
 CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.o: CMakeFiles/wagle_server.dir/flags.make
 CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.o: ../src/common/chat_room.cpp
 CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.o: CMakeFiles/wagle_server.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wonmnms/Wagle/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.o -MF CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.o.d -o CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.o -c /home/wonmnms/Wagle/src/common/chat_room.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wlstjrdl122/projects/Wagle/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.o -MF CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.o.d -o CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.o -c /home/wlstjrdl122/projects/Wagle/src/common/chat_room.cpp
 
 CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wonmnms/Wagle/src/common/chat_room.cpp > CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wlstjrdl122/projects/Wagle/src/common/chat_room.cpp > CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.i
 
 CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wonmnms/Wagle/src/common/chat_room.cpp -o CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wlstjrdl122/projects/Wagle/src/common/chat_room.cpp -o CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.s
 
 # Object files for target wagle_server
 wagle_server_OBJECTS = \
@@ -142,7 +142,7 @@ wagle_server: CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.o
 wagle_server: CMakeFiles/wagle_server.dir/build.make
 wagle_server: /usr/lib/x86_64-linux-gnu/libboost_system.so.1.74.0
 wagle_server: CMakeFiles/wagle_server.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/wonmnms/Wagle/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable wagle_server"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/wlstjrdl122/projects/Wagle/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable wagle_server"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/wagle_server.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -154,6 +154,6 @@ CMakeFiles/wagle_server.dir/clean:
 .PHONY : CMakeFiles/wagle_server.dir/clean
 
 CMakeFiles/wagle_server.dir/depend:
-	cd /home/wonmnms/Wagle/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/wonmnms/Wagle /home/wonmnms/Wagle /home/wonmnms/Wagle/build /home/wonmnms/Wagle/build /home/wonmnms/Wagle/build/CMakeFiles/wagle_server.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/wlstjrdl122/projects/Wagle/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/wlstjrdl122/projects/Wagle /home/wlstjrdl122/projects/Wagle /home/wlstjrdl122/projects/Wagle/build /home/wlstjrdl122/projects/Wagle/build /home/wlstjrdl122/projects/Wagle/build/CMakeFiles/wagle_server.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/wagle_server.dir/depend
 

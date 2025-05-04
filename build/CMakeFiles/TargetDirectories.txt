@@ -1,4 +1,4 @@
-/home/wonmnms/Wagle/build/CMakeFiles/wagle_server.dir
-/home/wonmnms/Wagle/build/CMakeFiles/wagle_client.dir
-/home/wonmnms/Wagle/build/CMakeFiles/edit_cache.dir
-/home/wonmnms/Wagle/build/CMakeFiles/rebuild_cache.dir
+/home/wlstjrdl122/projects/Wagle/build/CMakeFiles/wagle_server.dir
+/home/wlstjrdl122/projects/Wagle/build/CMakeFiles/wagle_client.dir
+/home/wlstjrdl122/projects/Wagle/build/CMakeFiles/edit_cache.dir
+/home/wlstjrdl122/projects/Wagle/build/CMakeFiles/rebuild_cache.dir

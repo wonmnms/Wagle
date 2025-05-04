@@ -17,6 +17,7 @@ const int USER_COUNT_HEIGHT = 3;
 WINDOW *chat_win = nullptr;
 WINDOW *input_win = nullptr;
 WINDOW *user_count_win = nullptr;
+std::string current_username;
 
 // 입력 포커스를 입력창으로 이동시키는 함수
 void set_focus_to_input() {
@@ -57,7 +58,7 @@ void init_ncurses() {
     start_color();
     init_pair(1, COLOR_WHITE, COLOR_BLUE);
     init_pair(2, COLOR_BLUE, COLOR_BLACK);  // 시스템 메시지용 파란색
-    
+    init_pair(3,COLOR_YELLOW,COLOR_BLACK);
     // 화면 크기 가져오기
     int max_y, max_x;
     getmaxyx(stdscr, max_y, max_x);
@@ -103,12 +104,18 @@ void update_user_count(int count) {
 // 채팅 메시지 표시 함수 수정 (타임스탬프 추가)
 void print_chat_message(const std::string& sender, const std::string& content) {
     std::string timestamp = get_timestamp();
+    if (sender == current_username) {
+        wattron(chat_win, COLOR_PAIR(3)); // 노란색 쌍
+    }
     wprintw(chat_win, "[%s] %s: %s\n", timestamp.c_str(), sender.c_str(), content.c_str());
+    if (sender == current_username) {
+        wattroff(chat_win, COLOR_PAIR(3));
+    }
     wrefresh(chat_win);
-    
-    // 메시지 출력 후 입력창으로 포커스 복귀
     set_focus_to_input();
 }
+
+
 
 // 시스템 메시지 표시 함수 수정 (파란색 및 타임스탬프 추가)
 void print_system_message(const std::string& message) {
@@ -277,10 +284,11 @@ int main(int argc, char* argv[]) {
         noecho();  // 입력 내용 표시 중지
 
         std::string username(username_buf);
-        // 빈 이름 방지
         if (username.empty()) {
             username = "Anonymous";
         }
+        current_username = username; // 👈 전역 변수에 저장
+        
 
         // 채팅 화면으로 전환
         endwin();  // 기존 ncurses 환경 종료

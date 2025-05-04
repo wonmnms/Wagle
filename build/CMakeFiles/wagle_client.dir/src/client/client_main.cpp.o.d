@@ -1,5 +1,5 @@
 CMakeFiles/wagle_client.dir/src/client/client_main.cpp.o: \
- /home/wonmnms/Wagle/src/client/client_main.cpp \
+ /home/wlstjrdl122/projects/Wagle/src/client/client_main.cpp \
  /usr/include/stdc-predef.h /usr/include/c++/11/iostream \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
@@ -1112,4 +1112,4 @@ CMakeFiles/wagle_client.dir/src/client/client_main.cpp.o: \
  /usr/include/boost/asio/impl/write_at.hpp \
  /usr/include/ncursesw/ncurses.h /usr/include/ncursesw/ncurses_dll.h \
  /usr/include/ncursesw/unctrl.h /usr/include/ncursesw/curses.h \
- /home/wonmnms/Wagle/include/protocol/message.h
+ /home/wlstjrdl122/projects/Wagle/include/protocol/message.h
