@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/wlstjrdl122/projects/Wagle
+CMAKE_SOURCE_DIR = /home/namju/clean_wagle/Wagle
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/wlstjrdl122/projects/Wagle/build
+CMAKE_BINARY_DIR = /home/namju/clean_wagle/Wagle/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/wagle_client.dir/depend.make
@@ -72,30 +72,30 @@ include CMakeFiles/wagle_client.dir/flags.make
 CMakeFiles/wagle_client.dir/src/client/client_main.cpp.o: CMakeFiles/wagle_client.dir/flags.make
 CMakeFiles/wagle_client.dir/src/client/client_main.cpp.o: ../src/client/client_main.cpp
 CMakeFiles/wagle_client.dir/src/client/client_main.cpp.o: CMakeFiles/wagle_client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wlstjrdl122/projects/Wagle/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/wagle_client.dir/src/client/client_main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wagle_client.dir/src/client/client_main.cpp.o -MF CMakeFiles/wagle_client.dir/src/client/client_main.cpp.o.d -o CMakeFiles/wagle_client.dir/src/client/client_main.cpp.o -c /home/wlstjrdl122/projects/Wagle/src/client/client_main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/namju/clean_wagle/Wagle/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/wagle_client.dir/src/client/client_main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wagle_client.dir/src/client/client_main.cpp.o -MF CMakeFiles/wagle_client.dir/src/client/client_main.cpp.o.d -o CMakeFiles/wagle_client.dir/src/client/client_main.cpp.o -c /home/namju/clean_wagle/Wagle/src/client/client_main.cpp
 
 CMakeFiles/wagle_client.dir/src/client/client_main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/wagle_client.dir/src/client/client_main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wlstjrdl122/projects/Wagle/src/client/client_main.cpp > CMakeFiles/wagle_client.dir/src/client/client_main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/namju/clean_wagle/Wagle/src/client/client_main.cpp > CMakeFiles/wagle_client.dir/src/client/client_main.cpp.i
 
 CMakeFiles/wagle_client.dir/src/client/client_main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/wagle_client.dir/src/client/client_main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wlstjrdl122/projects/Wagle/src/client/client_main.cpp -o CMakeFiles/wagle_client.dir/src/client/client_main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/namju/clean_wagle/Wagle/src/client/client_main.cpp -o CMakeFiles/wagle_client.dir/src/client/client_main.cpp.s
 
 CMakeFiles/wagle_client.dir/src/common/message.cpp.o: CMakeFiles/wagle_client.dir/flags.make
 CMakeFiles/wagle_client.dir/src/common/message.cpp.o: ../src/common/message.cpp
 CMakeFiles/wagle_client.dir/src/common/message.cpp.o: CMakeFiles/wagle_client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wlstjrdl122/projects/Wagle/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/wagle_client.dir/src/common/message.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wagle_client.dir/src/common/message.cpp.o -MF CMakeFiles/wagle_client.dir/src/common/message.cpp.o.d -o CMakeFiles/wagle_client.dir/src/common/message.cpp.o -c /home/wlstjrdl122/projects/Wagle/src/common/message.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/namju/clean_wagle/Wagle/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/wagle_client.dir/src/common/message.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wagle_client.dir/src/common/message.cpp.o -MF CMakeFiles/wagle_client.dir/src/common/message.cpp.o.d -o CMakeFiles/wagle_client.dir/src/common/message.cpp.o -c /home/namju/clean_wagle/Wagle/src/common/message.cpp
 
 CMakeFiles/wagle_client.dir/src/common/message.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/wagle_client.dir/src/common/message.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wlstjrdl122/projects/Wagle/src/common/message.cpp > CMakeFiles/wagle_client.dir/src/common/message.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/namju/clean_wagle/Wagle/src/common/message.cpp > CMakeFiles/wagle_client.dir/src/common/message.cpp.i
 
 CMakeFiles/wagle_client.dir/src/common/message.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/wagle_client.dir/src/common/message.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wlstjrdl122/projects/Wagle/src/common/message.cpp -o CMakeFiles/wagle_client.dir/src/common/message.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/namju/clean_wagle/Wagle/src/common/message.cpp -o CMakeFiles/wagle_client.dir/src/common/message.cpp.s
 
 # Object files for target wagle_client
 wagle_client_OBJECTS = \
@@ -110,7 +110,7 @@ wagle_client: CMakeFiles/wagle_client.dir/src/common/message.cpp.o
 wagle_client: CMakeFiles/wagle_client.dir/build.make
 wagle_client: /usr/lib/x86_64-linux-gnu/libboost_system.so.1.74.0
 wagle_client: CMakeFiles/wagle_client.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/wlstjrdl122/projects/Wagle/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable wagle_client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/namju/clean_wagle/Wagle/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable wagle_client"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/wagle_client.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -122,6 +122,6 @@ CMakeFiles/wagle_client.dir/clean:
 .PHONY : CMakeFiles/wagle_client.dir/clean
 
 CMakeFiles/wagle_client.dir/depend:
-	cd /home/wlstjrdl122/projects/Wagle/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/wlstjrdl122/projects/Wagle /home/wlstjrdl122/projects/Wagle /home/wlstjrdl122/projects/Wagle/build /home/wlstjrdl122/projects/Wagle/build /home/wlstjrdl122/projects/Wagle/build/CMakeFiles/wagle_client.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/namju/clean_wagle/Wagle/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/namju/clean_wagle/Wagle /home/namju/clean_wagle/Wagle /home/namju/clean_wagle/Wagle/build /home/namju/clean_wagle/Wagle/build /home/namju/clean_wagle/Wagle/build/CMakeFiles/wagle_client.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/wagle_client.dir/depend
 

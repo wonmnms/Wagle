@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -DNCURSES_WIDECHAR=1 -D_XOPEN_SOURCE_EXTENDED
 
-CXX_INCLUDES = -I/usr/include/ncursesw -I/home/wlstjrdl122/projects/Wagle/include
+CXX_INCLUDES = -I/usr/include/ncursesw -I/home/namju/clean_wagle/Wagle/include
 
 CXX_FLAGS = 
 

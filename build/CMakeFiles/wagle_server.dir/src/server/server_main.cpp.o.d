@@ -1,5 +1,5 @@
 CMakeFiles/wagle_server.dir/src/server/server_main.cpp.o: \
- /home/wlstjrdl122/projects/Wagle/src/server/server_main.cpp \
+ /home/namju/clean_wagle/Wagle/src/server/server_main.cpp \
  /usr/include/stdc-predef.h /usr/include/c++/11/iostream \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
@@ -1109,13 +1109,10 @@ CMakeFiles/wagle_server.dir/src/server/server_main.cpp.o: \
  /usr/include/boost/asio/windows/stream_handle.hpp \
  /usr/include/boost/asio/write_at.hpp \
  /usr/include/boost/asio/impl/write_at.hpp \
- /home/wlstjrdl122/projects/Wagle/include/socket/socket_manager.h \
- /usr/include/ncursesw/ncurses.h /usr/include/ncursesw/ncurses_dll.h \
- /usr/include/ncursesw/unctrl.h /usr/include/ncursesw/curses.h \
- /usr/include/c++/11/cstdarg \
- /home/wlstjrdl122/projects/Wagle/include/chat/chat_room.h \
+ /home/namju/clean_wagle/Wagle/include/socket/socket_manager.h \
+ /home/namju/clean_wagle/Wagle/include/chat/chat_room.h \
  /usr/include/c++/11/set /usr/include/c++/11/bits/stl_set.h \
  /usr/include/c++/11/bits/stl_multiset.h /usr/include/c++/11/deque \
  /usr/include/c++/11/bits/stl_deque.h /usr/include/c++/11/bits/deque.tcc \
- /home/wlstjrdl122/projects/Wagle/include/protocol/message.h \
- /home/wlstjrdl122/projects/Wagle/include/chat/user.h
+ /home/namju/clean_wagle/Wagle/include/protocol/message.h \
+ /home/namju/clean_wagle/Wagle/include/chat/user.h
