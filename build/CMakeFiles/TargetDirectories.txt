@@ -1,4 +1,0 @@
-/home/namju/clean_wagle/Wagle/build/CMakeFiles/wagle_server.dir
-/home/namju/clean_wagle/Wagle/build/CMakeFiles/wagle_client.dir
-/home/namju/clean_wagle/Wagle/build/CMakeFiles/edit_cache.dir
-/home/namju/clean_wagle/Wagle/build/CMakeFiles/rebuild_cache.dir
