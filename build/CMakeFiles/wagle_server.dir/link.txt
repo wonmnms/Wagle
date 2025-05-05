@@ -1,1 +1,0 @@
-/usr/bin/g++ CMakeFiles/wagle_server.dir/src/server/server_main.cpp.o CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.o CMakeFiles/wagle_server.dir/src/common/message.cpp.o CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.o -o wagle_server  /usr/lib/x86_64-linux-gnu/libboost_system.so.1.74.0 -lpthread -lncursesw 
