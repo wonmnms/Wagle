@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
     }
     catch (std::exception& e) {
         // ncurses 종료
-        wagle::cleanup_server_ui();
+        // wagle::cleanup_server_ui();
         
         std::cerr << "Exception: " << e.what() << std::endl;
         return 1;
