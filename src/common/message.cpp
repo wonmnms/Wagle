@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <cstring>
 
 namespace wagle {
 
@@ -17,22 +18,41 @@ std::string Message::serialize() const {
 
     // 메시지 형식: <타입>:<발신자>:<내용>
     // 콜론은 직렬화에 사용되므로 sender와 content에서 콜론을 다른 문자로 대체
-    std::string safe_sender = sender_;
-    std::string safe_content = content_;
-    
-    // 콜론을 유니코드 대체 문자로 변경 (예: ˸)
-    for (size_t i = 0; i < safe_sender.length(); ++i) {
-        if (safe_sender[i] == ':') safe_sender[i] = '\xCB\xB8';
-    }
-    
-    for (size_t i = 0; i < safe_content.length(); ++i) {
-        if (safe_content[i] == ':') safe_content[i] = '\xCB\xB8';
-    }
+    std::string safe_sender = escapeSpecialChars(sender_);
+    std::string safe_content = escapeSpecialChars(content_);
 
     int type_int = static_cast<int>(type_);
     ss << type_int << ":" << safe_sender << ":" << safe_content << "\n";
 
     return ss.str();
+}
+
+// 직렬화 위해 콜론 등의 특수문자 이스케이프 처리
+std::string Message::escapeSpecialChars(const std::string& str) const {
+    std::string result = str;
+    size_t pos = 0;
+    
+    // 콜론을 유니코드 대체 문자로 변경 (예: ˸)
+    while ((pos = result.find(':', pos)) != std::string::npos) {
+        result.replace(pos, 1, "\xCB\xB8");
+        pos += 2; // 2바이트 유니코드 문자
+    }
+    
+    return result;
+}
+
+// 직렬화된 문자열에서 특수문자 원복
+std::string Message::unescapeSpecialChars(const std::string& str) const {
+    std::string result = str;
+    size_t pos = 0;
+    
+    // 유니코드 대체 문자를 콜론으로 복원
+    while ((pos = result.find("\xCB\xB8", pos)) != std::string::npos) {
+        result.replace(pos, 2, ":");
+        pos += 1; // 1바이트 문자로 변경됨
+    }
+    
+    return result;
 }
 
 Message Message::deserialize(const std::string& data) {
@@ -55,30 +75,19 @@ Message Message::deserialize(const std::string& data) {
     size_t second_colon = line.find(':', first_colon + 1);
     if (second_colon == std::string::npos) {
         std::string content = line.substr(first_colon + 1);
-        // 대체된 콜론 복원
-        for (size_t i = 0; i < content.length(); ++i) {
-            if (content[i] == '\xCB' && i+1 < content.length() && content[i+1] == '\xB8') {
-                content.replace(i, 2, ":");
-            }
-        }
+        // 이스케이프 처리된 문자열 원복
+        Message msg;
+        content = msg.unescapeSpecialChars(content);
         return Message(type, content);
     }
 
     std::string sender = line.substr(first_colon + 1, second_colon - first_colon - 1);
     std::string content = line.substr(second_colon + 1);
     
-    // 대체된 콜론 복원
-    for (size_t i = 0; i < sender.length(); ++i) {
-        if (sender[i] == '\xCB' && i+1 < sender.length() && sender[i+1] == '\xB8') {
-            sender.replace(i, 2, ":");
-        }
-    }
-    
-    for (size_t i = 0; i < content.length(); ++i) {
-        if (content[i] == '\xCB' && i+1 < content.length() && content[i+1] == '\xB8') {
-            content.replace(i, 2, ":");
-        }
-    }
+    // 이스케이프 처리된 문자열 원복
+    Message msg;
+    sender = msg.unescapeSpecialChars(sender);
+    content = msg.unescapeSpecialChars(content);
 
     return Message(type, sender, content);
 }

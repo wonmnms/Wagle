@@ -5,6 +5,7 @@
 #include <ncurses.h>
 #include <ctime>
 #include <cstdarg>
+#include <set>  // 추가: 사용자 이름 관리를 위한 set
 #include "chat/chat_room.h"
 #include "chat/user.h"
 
@@ -17,6 +18,9 @@ extern WINDOW* log_win;
 
 // 총 접속 시도 수
 extern int total_connections;
+
+// 사용 중인 사용자 이름 목록
+extern std::set<std::string> active_usernames;  // 추가: 활성 사용자 이름 집합
 
 // 함수 선언
 void init_server_ui();

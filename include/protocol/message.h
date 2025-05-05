@@ -10,7 +10,8 @@ enum class MessageType {
     DISCONNECT,  // 사용자 연결 해제
     CHAT_MSG,    // 채팅 메시지
     USER_LIST,   // 사용자 목록
-    USER_COUNT   // 사용자 수 추가
+    USER_COUNT,  // 사용자 수 추가
+    USERNAME_ERROR  // 사용자 이름 오류 메시지 추가
 };
 
 // 메시지 클래스
@@ -29,6 +30,10 @@ class Message {
 
     // UTF-8 문자열의 바이트 길이 계산
     static std::size_t utf8Length(const std::string& str);
+
+    // 특수 문자 이스케이프/언이스케이프 처리
+    std::string escapeSpecialChars(const std::string& str) const;
+    std::string unescapeSpecialChars(const std::string& str) const;
 
     MessageType getType() const { return type_; }
     std::string getSender() const { return sender_; }
