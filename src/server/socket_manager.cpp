@@ -1,4 +1,5 @@
 #include <locale.h>
+#include <mutex>
 #include "socket/socket_manager.h"
 
 namespace wagle {
@@ -8,11 +9,22 @@ WINDOW* main_win = nullptr;
 WINDOW* status_win = nullptr;
 WINDOW* log_win = nullptr;
 int total_connections = 0;
+std::set<std::string> active_usernames;  // 활성 사용자 이름 집합 정의
+std::mutex username_mutex;  // 사용자 이름 동시 접근 제어를 위한 뮤텍스
 
 // 서버 UI 초기화
 void init_server_ui() {
     // UTF-8 한글 지원 설정
     setlocale(LC_ALL, "");
+    
+    // 이미 초기화되어 있으면 정리
+    if (stdscr) {
+        if (status_win) delwin(status_win);
+        if (log_win) delwin(log_win);
+        if (main_win) delwin(main_win);
+        endwin();
+        refresh();
+    }
     
     // ncurses 초기화
     initscr();
@@ -54,10 +66,17 @@ void cleanup_server_ui() {
     if (log_win) delwin(log_win);
     if (main_win) delwin(main_win);
     endwin();
+    
+    // 포인터 초기화
+    status_win = nullptr;
+    log_win = nullptr;
+    main_win = nullptr;
 }
 
 // 상태 창 업데이트
 void update_status_window(size_t user_count) {
+    if (!status_win) return;
+    
     // 상태창 지우기
     werase(status_win);
     box(status_win, 0, 0);
@@ -75,6 +94,8 @@ void update_status_window(size_t user_count) {
 
 // 로그 메시지 추가
 void add_log_message(const char* format, ...) {
+    if (!log_win) return;
+    
     va_list args;
     va_start(args, format);
     
@@ -129,10 +150,50 @@ void Session::readUsername() {
                 // CONNECT 메시지인지 확인
                 Message msg = Message::deserialize(data);
                 if (msg.getType() == MessageType::CONNECT) {
-                    username_ = msg.getContent();
+                    username_ = msg.getSender();  // getSender()로 사용자 이름 가져오기
+                    
+                    // 이름이 비어있거나 중복되었는지 확인
+                    bool isValid = true;
+                    std::string errorMsg;
+                    
+                    // 빈 이름 체크
+                    if (username_.empty()) {
+                        isValid = false;
+                        errorMsg = "Username cannot be empty";
+                    } 
+                    // 중복 이름 체크 (스레드 안전하게)
+                    else {
+                        std::unique_lock<std::mutex> lock(username_mutex);
+                        if (active_usernames.find(username_) != active_usernames.end()) {
+                            isValid = false;
+                            errorMsg = "Username already in use";
+                        } else {
+                            // 이름이 유효하면 활성 사용자 목록에 추가
+                            active_usernames.insert(username_);
+                        }
+                        // 락 자동 해제
+                    }
+                    
+                    if (!isValid) {
+                        // 에러 메시지 전송
+                        Message error_msg(MessageType::DISCONNECT, "SERVER", errorMsg);
+                        boost::asio::write(socket_, boost::asio::buffer(error_msg.serialize()));
+                        
+                        // 로그 출력
+                        add_log_message("Username validation failed: %s (%s)", 
+                                      username_.c_str(), errorMsg.c_str());
+                        
+                        // 다시 이름 읽기
+                        readUsername();
+                        return;
+                    }
                     
                     // 로그 출력
                     add_log_message("User connected: %s (%s)", username_.c_str(), client_address_.c_str());
+                    
+                    // 연결 확인 메시지 전송
+                    Message confirm_msg(MessageType::CONNECT, "SERVER", "Connection successful");
+                    boost::asio::write(socket_, boost::asio::buffer(confirm_msg.serialize()));
                     
                     // 사용자 생성 및 채팅방 참여
                     auto user = std::make_shared<User>(std::move(socket_), username_);
@@ -164,10 +225,6 @@ void Session::readMessage() {
                 // 메시지 파싱 및 처리
                 Message msg = Message::deserialize(data);
                 if (msg.getType() == MessageType::CHAT_MSG) {
-                    // 로그 출력 부분 제거 (채팅 내용을 서버 화면에 표시하지 않음)
-                    // add_log_message("Message from %s: %s", 
-                    //              username_.c_str(), msg.getContent().c_str());
-                    
                     // 발신자 정보 추가하여 브로드캐스트
                     Message broadcast_msg(MessageType::CHAT_MSG, username_, msg.getContent());
                     room_.broadcast(broadcast_msg);
@@ -179,6 +236,12 @@ void Session::readMessage() {
                 // 로그 출력
                 add_log_message("User disconnected: %s (%s)", 
                               username_.c_str(), client_address_.c_str());
+                
+                // 사용자 이름 해제 (스레드 안전하게)
+                {
+                    std::unique_lock<std::mutex> lock(username_mutex);
+                    active_usernames.erase(username_);
+                }
                 
                 // 연결 종료
                 room_.leave(user_);
@@ -192,6 +255,9 @@ void Session::readMessage() {
 // 소켓 매니저 생성자
 SocketManager::SocketManager(boost::asio::io_context& io_context, const tcp::endpoint& endpoint)
     : acceptor_(io_context, endpoint) {
+    
+    // UTF-8 한글 지원 설정
+    setlocale(LC_ALL, "");
     
     // ncurses UI 초기화
     init_server_ui();

@@ -8,10 +8,10 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/wlstjrdl122/projects/Wagle/src/common/chat_room.cpp" "CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.o" "gcc" "CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.o.d"
-  "/home/wlstjrdl122/projects/Wagle/src/common/message.cpp" "CMakeFiles/wagle_server.dir/src/common/message.cpp.o" "gcc" "CMakeFiles/wagle_server.dir/src/common/message.cpp.o.d"
-  "/home/wlstjrdl122/projects/Wagle/src/server/server_main.cpp" "CMakeFiles/wagle_server.dir/src/server/server_main.cpp.o" "gcc" "CMakeFiles/wagle_server.dir/src/server/server_main.cpp.o.d"
-  "/home/wlstjrdl122/projects/Wagle/src/server/socket_manager.cpp" "CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.o" "gcc" "CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.o.d"
+  "/home/wonmnms/Wagle/src/common/chat_room.cpp" "CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.o" "gcc" "CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.o.d"
+  "/home/wonmnms/Wagle/src/common/message.cpp" "CMakeFiles/wagle_server.dir/src/common/message.cpp.o" "gcc" "CMakeFiles/wagle_server.dir/src/common/message.cpp.o.d"
+  "/home/wonmnms/Wagle/src/server/server_main.cpp" "CMakeFiles/wagle_server.dir/src/server/server_main.cpp.o" "gcc" "CMakeFiles/wagle_server.dir/src/server/server_main.cpp.o.d"
+  "/home/wonmnms/Wagle/src/server/socket_manager.cpp" "CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.o" "gcc" "CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.o.d"
   )
 
 # Targets to which this target links.
