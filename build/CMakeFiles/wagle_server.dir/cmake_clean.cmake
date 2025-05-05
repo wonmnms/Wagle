@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/wagle_server.dir/src/common/message.cpp.o.d"
   "CMakeFiles/wagle_server.dir/src/server/server_main.cpp.o"
   "CMakeFiles/wagle_server.dir/src/server/server_main.cpp.o.d"
+  "CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.o"
+  "CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.o.d"
   "wagle_server"
   "wagle_server.pdb"
 )

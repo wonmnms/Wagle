@@ -1,27 +1,32 @@
 [
 {
-  "directory": "/home/wonmn/wagle/build",
-  "command": "/usr/bin/g++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -I/home/wonmn/wagle/include -g -o CMakeFiles/wagle_server.dir/src/server/server_main.cpp.o -c /home/wonmn/wagle/src/server/server_main.cpp",
-  "file": "/home/wonmn/wagle/src/server/server_main.cpp"
+  "directory": "/home/wonmnms/Wagle/build",
+  "command": "/usr/bin/g++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -DNCURSES_WIDECHAR=1 -D_XOPEN_SOURCE_EXTENDED -I/usr/include/ncursesw -I/home/wonmnms/Wagle/include -g -o CMakeFiles/wagle_server.dir/src/server/server_main.cpp.o -c /home/wonmnms/Wagle/src/server/server_main.cpp",
+  "file": "/home/wonmnms/Wagle/src/server/server_main.cpp"
 },
 {
-  "directory": "/home/wonmn/wagle/build",
-  "command": "/usr/bin/g++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -I/home/wonmn/wagle/include -g -o CMakeFiles/wagle_server.dir/src/common/message.cpp.o -c /home/wonmn/wagle/src/common/message.cpp",
-  "file": "/home/wonmn/wagle/src/common/message.cpp"
+  "directory": "/home/wonmnms/Wagle/build",
+  "command": "/usr/bin/g++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -DNCURSES_WIDECHAR=1 -D_XOPEN_SOURCE_EXTENDED -I/usr/include/ncursesw -I/home/wonmnms/Wagle/include -g -o CMakeFiles/wagle_server.dir/src/server/socket_manager.cpp.o -c /home/wonmnms/Wagle/src/server/socket_manager.cpp",
+  "file": "/home/wonmnms/Wagle/src/server/socket_manager.cpp"
 },
 {
-  "directory": "/home/wonmn/wagle/build",
-  "command": "/usr/bin/g++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -I/home/wonmn/wagle/include -g -o CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.o -c /home/wonmn/wagle/src/common/chat_room.cpp",
-  "file": "/home/wonmn/wagle/src/common/chat_room.cpp"
+  "directory": "/home/wonmnms/Wagle/build",
+  "command": "/usr/bin/g++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -DNCURSES_WIDECHAR=1 -D_XOPEN_SOURCE_EXTENDED -I/usr/include/ncursesw -I/home/wonmnms/Wagle/include -g -o CMakeFiles/wagle_server.dir/src/common/message.cpp.o -c /home/wonmnms/Wagle/src/common/message.cpp",
+  "file": "/home/wonmnms/Wagle/src/common/message.cpp"
 },
 {
-  "directory": "/home/wonmn/wagle/build",
-  "command": "/usr/bin/g++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -I/home/wonmn/wagle/include -g -o CMakeFiles/wagle_client.dir/src/client/client_main.cpp.o -c /home/wonmn/wagle/src/client/client_main.cpp",
-  "file": "/home/wonmn/wagle/src/client/client_main.cpp"
+  "directory": "/home/wonmnms/Wagle/build",
+  "command": "/usr/bin/g++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -DNCURSES_WIDECHAR=1 -D_XOPEN_SOURCE_EXTENDED -I/usr/include/ncursesw -I/home/wonmnms/Wagle/include -g -o CMakeFiles/wagle_server.dir/src/common/chat_room.cpp.o -c /home/wonmnms/Wagle/src/common/chat_room.cpp",
+  "file": "/home/wonmnms/Wagle/src/common/chat_room.cpp"
 },
 {
-  "directory": "/home/wonmn/wagle/build",
-  "command": "/usr/bin/g++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -I/home/wonmn/wagle/include -g -o CMakeFiles/wagle_client.dir/src/common/message.cpp.o -c /home/wonmn/wagle/src/common/message.cpp",
-  "file": "/home/wonmn/wagle/src/common/message.cpp"
+  "directory": "/home/wonmnms/Wagle/build",
+  "command": "/usr/bin/g++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -DNCURSES_WIDECHAR=1 -D_XOPEN_SOURCE_EXTENDED -I/usr/include/ncursesw -I/home/wonmnms/Wagle/include -g -o CMakeFiles/wagle_client.dir/src/client/client_main.cpp.o -c /home/wonmnms/Wagle/src/client/client_main.cpp",
+  "file": "/home/wonmnms/Wagle/src/client/client_main.cpp"
+},
+{
+  "directory": "/home/wonmnms/Wagle/build",
+  "command": "/usr/bin/g++ -DBOOST_ALL_NO_LIB -DBOOST_SYSTEM_DYN_LINK -DNCURSES_WIDECHAR=1 -D_XOPEN_SOURCE_EXTENDED -I/usr/include/ncursesw -I/home/wonmnms/Wagle/include -g -o CMakeFiles/wagle_client.dir/src/common/message.cpp.o -c /home/wonmnms/Wagle/src/common/message.cpp",
+  "file": "/home/wonmnms/Wagle/src/common/message.cpp"
 }
 ]

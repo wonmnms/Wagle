@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/wonmn/wagle
+CMAKE_SOURCE_DIR = /home/wlstjrdl122/projects/Wagle
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/wonmn/wagle/build
+CMAKE_BINARY_DIR = /home/wlstjrdl122/projects/Wagle/build
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -83,14 +83,14 @@ clean: CMakeFiles/wagle_client.dir/clean
 CMakeFiles/wagle_server.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/wagle_server.dir/build.make CMakeFiles/wagle_server.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/wagle_server.dir/build.make CMakeFiles/wagle_server.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/wonmn/wagle/build/CMakeFiles --progress-num=4,5,6,7 "Built target wagle_server"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/wlstjrdl122/projects/Wagle/build/CMakeFiles --progress-num=4,5,6,7,8 "Built target wagle_server"
 .PHONY : CMakeFiles/wagle_server.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/wagle_server.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wonmn/wagle/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wlstjrdl122/projects/Wagle/build/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/wagle_server.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wonmn/wagle/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wlstjrdl122/projects/Wagle/build/CMakeFiles 0
 .PHONY : CMakeFiles/wagle_server.dir/rule
 
 # Convenience name for target.
@@ -109,14 +109,14 @@ CMakeFiles/wagle_server.dir/clean:
 CMakeFiles/wagle_client.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/wagle_client.dir/build.make CMakeFiles/wagle_client.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/wagle_client.dir/build.make CMakeFiles/wagle_client.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/wonmn/wagle/build/CMakeFiles --progress-num=1,2,3 "Built target wagle_client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/wlstjrdl122/projects/Wagle/build/CMakeFiles --progress-num=1,2,3 "Built target wagle_client"
 .PHONY : CMakeFiles/wagle_client.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/wagle_client.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wonmn/wagle/build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wlstjrdl122/projects/Wagle/build/CMakeFiles 3
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/wagle_client.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wonmn/wagle/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wlstjrdl122/projects/Wagle/build/CMakeFiles 0
 .PHONY : CMakeFiles/wagle_client.dir/rule
 
 # Convenience name for target.
