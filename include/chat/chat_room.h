@@ -11,7 +11,7 @@ namespace wagle {
 class ChatRoom {
 public:
     // 사용자 입장
-    void join(std::shared_ptr<User> user);
+    bool join(std::shared_ptr<User> user);
     
     // 사용자 퇴장
     void leave(std::shared_ptr<User> user);
@@ -22,12 +22,8 @@ public:
     // 최근 메시지 가져오기
     const std::deque<Message>& getRecentMessages() const { return recent_messages_; }
     
-    // 현재 사용자 수 가져오기
-    size_t getUserCount() const { return users_.size(); }
-    
-    // 사용자 수 업데이트 메시지 전송
-    void broadcastUserCount();
-    
+    bool isNameTaken(const std::string& name);  // 중복 닉네임 검사 함수 선언
+
 private:
     std::set<std::shared_ptr<User>> users_;
     std::deque<Message> recent_messages_;
