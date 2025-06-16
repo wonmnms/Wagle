@@ -6,6 +6,27 @@
 #include <ncurses.h>
 #include <locale.h>
 #include "protocol/message.h"
+#include <unordered_map> 
+
+// 이모티콘 문자열을 실제 유니코드 이모지로 변환
+std::string convertEmoticons(const std::string& text) {
+    static const std::unordered_map<std::string, std::string> emoji_map = {
+        {":smile:", "😄"}, {":sad:", "😢"}, {":fire:", "🔥"},
+        {":heart:", "❤️"}, {":laugh:", "😂"}, {":thumbsup:", "👍"},
+        {":star:", "⭐"}
+    };
+
+    std::string result = text;
+    for (const auto& [key, emoji] : emoji_map) {
+        size_t pos = 0;
+        while ((pos = result.find(key, pos)) != std::string::npos) {
+            result.replace(pos, key.length(), emoji);
+            pos += emoji.length();
+        }
+    }
+
+    return result;
+}
 
 using boost::asio::ip::tcp;
 
@@ -218,7 +239,7 @@ void print_chat_message(const std::string& sender, const std::string& content) {
         if (sender == current_username) {
             wattron(chat_win, COLOR_PAIR(COLOR_PAIR_MY_MESSAGE));
         }
-        wprintw(chat_win, "[%s] %s: %s\n", timestamp.c_str(), sender.c_str(), content.c_str());
+        wprintw(chat_win, "[%s] %s: %s\n", timestamp.c_str(), sender.c_str(), convertEmoticons(content).c_str());
         if (sender == current_username) {
             wattroff(chat_win, COLOR_PAIR(COLOR_PAIR_MY_MESSAGE));
         }
@@ -234,7 +255,7 @@ void print_system_message(const std::string& message) {
         
         // 파란색으로 시스템 메시지 출력
         wattron(chat_win, COLOR_PAIR(COLOR_PAIR_SYSTEM));
-        wprintw(chat_win, "[%s] ** %s **\n", timestamp.c_str(), message.c_str());
+        wprintw(chat_win, "[%s] ** %s **\n", timestamp.c_str(), convertEmoticons(message).c_str());
         wattroff(chat_win, COLOR_PAIR(COLOR_PAIR_SYSTEM));
         
         wrefresh(chat_win);
@@ -505,7 +526,12 @@ int main(int argc, char* argv[]) {
             
             if (line == "/quit")
                 break;
-            
+	    else if (line == "/emojis"){
+		   print_system_message("사용 가능한 이모티콘:");
+		   print_system_message(":smile: 😄  :sad: 😢  :fire: 🔥  :heart: ❤️");
+		   print_system_message(":laugh: 😂  :thumbsup: 👍  :star: ⭐");
+	    }
+
             // 채팅 메시지 전송
             client.write(wagle::Message(wagle::MessageType::CHAT_MSG, current_username, line));
         }
