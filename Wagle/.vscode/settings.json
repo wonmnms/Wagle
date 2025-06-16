@@ -1,0 +1,18 @@
+{
+    "cmake.configureOnOpen": true,
+    "cmake.buildDirectory": "${workspaceFolder}/build",
+    "cmake.generator": "Unix Makefiles",
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "files.associations": {
+        "*.cpp": "cpp",
+        "*.h": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "iostream": "cpp",
+        "thread": "cpp",
+        "chrono": "cpp",
+        "format": "cpp"
+    },
+    "editor.formatOnSave": true,
+    "C_Cpp.clang_format_style": "{ BasedOnStyle: Google, IndentWidth: 4 }"
+}
