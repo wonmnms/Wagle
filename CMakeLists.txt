@@ -15,6 +15,7 @@ add_executable(wagle_server
     src/server/socket_manager.cpp
     src/common/message.cpp
     src/common/chat_room.cpp
+    src/common/chat_room_manager.cpp
 )
 
 # 클라이언트 실행 파일
@@ -33,11 +34,11 @@ target_link_libraries(wagle_client PRIVATE Boost::system pthread ncursesw)
 # Clean 타겟 추가
 add_custom_target(clean-all
     COMMAND ${CMAKE_BUILD_TOOL} clean
-    COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_BINARY_DIR}/CMakeFiles
-    COMMAND ${CMAKE_COMMAND} -E remove -f ${CMAKE_BINARY_DIR}/CMakeCache.txt
-    COMMAND ${CMAKE_COMMAND} -E remove -f ${CMAKE_BINARY_DIR}/cmake_install.cmake
-    COMMAND ${CMAKE_COMMAND} -E remove -f ${CMAKE_BINARY_DIR}/Makefile
-    COMMAND ${CMAKE_COMMAND} -E remove -f ${CMAKE_BINARY_DIR}/wagle_server
-    COMMAND ${CMAKE_COMMAND} -E remove -f ${CMAKE_BINARY_DIR}/wagle_client
-    COMMENT "Cleaning all build files and executables"
+    COMMAND ${CMAKE_COMMAND} -E remove_directory CMakeFiles
+    COMMAND ${CMAKE_COMMAND} -E remove CMakeCache.txt
+    COMMAND ${CMAKE_COMMAND} -E remove cmake_install.cmake
+    COMMAND ${CMAKE_COMMAND} -E remove Makefile
+    COMMAND ${CMAKE_COMMAND} -E remove wagle_server
+    COMMAND ${CMAKE_COMMAND} -E remove wagle_client
+    COMMENT "Cleaning all build files including CMake generated files"
 )
