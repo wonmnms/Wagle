@@ -1,6 +1,10 @@
 #include <locale.h>
 #include <mutex>
 #include "socket/socket_manager.h"
+#include "protocol/message.h"
+#include "chat/chat_room_manager.h"
+#include "chat/chat_room.h"
+#include "chat/user.h"
 
 namespace wagle {
 
@@ -12,7 +16,19 @@ int total_connections = 0;
 std::set<std::string> active_usernames;
 std::mutex username_mutex;
 
-// 서버 UI 초기화
+// SessionUser 메서드 구현
+SessionUser::SessionUser(tcp::socket& socket, const std::string& name)
+    : socket_(socket), name_(name) {}
+
+std::string SessionUser::getName() const {
+    return name_;
+}
+
+SessionUser::tcp::socket& SessionUser::getSocket() {
+    return socket_;
+}
+
+// 서버 UI 함수들
 void init_server_ui() {
     setlocale(LC_ALL, "");
     
@@ -93,7 +109,7 @@ void add_log_message(const char* format, ...) {
     va_end(args);
 }
 
-// 세션 생성자
+// Session 클래스 구현
 Session::Session(tcp::socket socket, ChatRoomManager& room_manager)
     : socket_(std::move(socket)), room_manager_(room_manager) {
     total_connections++;
@@ -155,9 +171,6 @@ void Session::readUsername() {
                     Message confirm_msg(MessageType::CONNECT, "SERVER", "Connection successful");
                     boost::asio::write(socket_, boost::asio::buffer(confirm_msg.serialize()));
                     
-                    auto user = std::make_shared<User>(std::move(socket_), username_);
-                    user_ = user;
-                    
                     readMessage();
                 }
             }
@@ -167,7 +180,7 @@ void Session::readUsername() {
 void Session::readMessage() {
     auto self(shared_from_this());
     boost::asio::async_read_until(
-        user_->getSocket(), buffer_, '\n',
+        socket_, buffer_, '\n',
         [this, self](boost::system::error_code ec, std::size_t /*length*/) {
             if (!ec) {
                 std::string data;
@@ -210,20 +223,18 @@ void Session::readMessage() {
                 readMessage();
             } else {
                 add_log_message("User disconnected: %s (%s)", username_.c_str(), client_address_.c_str());
-                
                 {
                     std::unique_lock<std::mutex> lock(username_mutex);
                     active_usernames.erase(username_);
                 }
-                
                 if (!current_room_.empty()) {
                     auto room = room_manager_.getRoom(current_room_);
-                    if (room) {
-                        room->leave(user_);
+                    if (room && user_) {
+                        auto user_ptr = std::make_shared<User>(user_->getSocket(), user_->getName());
+                        room->leave(user_ptr);
                     }
                 }
                 
-                // 총 사용자 수 업데이트를 위해 모든 방의 사용자 수 합산
                 auto room_list = room_manager_.getRoomList();
                 size_t total_users = 0;
                 for (const auto& room_info : room_list) {
@@ -247,17 +258,17 @@ void Session::handleRoomListRequest() {
     }
     
     Message response(MessageType::ROOM_LIST, "SERVER", room_list_data);
-    boost::asio::write(user_->getSocket(), boost::asio::buffer(response.serialize()));
+    boost::asio::write(socket_, boost::asio::buffer(response.serialize()));
 }
 
 void Session::handleRoomCreateRequest(const std::string& room_name) {
     if (room_manager_.createRoom(room_name)) {
         Message response(MessageType::ROOM_CREATE, "SERVER", "Room created successfully");
-        boost::asio::write(user_->getSocket(), boost::asio::buffer(response.serialize()));
+        boost::asio::write(socket_, boost::asio::buffer(response.serialize()));
         add_log_message("Room created: %s by %s", room_name.c_str(), username_.c_str());
     } else {
         Message response(MessageType::ROOM_ERROR, "SERVER", "Failed to create room (name already exists or invalid)");
-        boost::asio::write(user_->getSocket(), boost::asio::buffer(response.serialize()));
+        boost::asio::write(socket_, boost::asio::buffer(response.serialize()));
     }
 }
 
@@ -265,28 +276,34 @@ void Session::handleRoomJoinRequest(const std::string& room_name) {
     auto room = room_manager_.getRoom(room_name);
     if (!room) {
         Message response(MessageType::ROOM_ERROR, "SERVER", "Room does not exist");
-        boost::asio::write(user_->getSocket(), boost::asio::buffer(response.serialize()));
+        boost::asio::write(socket_, boost::asio::buffer(response.serialize()));
         return;
     }
     
     // 이전 방에서 나가기
     if (!current_room_.empty()) {
         auto old_room = room_manager_.getRoom(current_room_);
-        if (old_room) {
-            old_room->leave(user_);
+        if (old_room && user_) {
+            auto user_ptr = std::make_shared<User>(user_->getSocket(), user_->getName());
+            old_room->leave(user_ptr);
         }
+    }
+    
+    // User 객체 생성 또는 업데이트
+    if (!user_) {
+        user_ = std::make_shared<SessionUser>(socket_, username_);
     }
     
     // 새 방에 입장
     current_room_ = room_name;
-    room->join(user_);
+    auto user_ptr = std::make_shared<User>(user_->getSocket(), user_->getName());
+    room->join(user_ptr);
     
     Message response(MessageType::ROOM_JOIN, "SERVER", "Joined room: " + room_name, room_name);
-    boost::asio::write(user_->getSocket(), boost::asio::buffer(response.serialize()));
+    boost::asio::write(socket_, boost::asio::buffer(response.serialize()));
     
     add_log_message("User %s joined room: %s", username_.c_str(), room_name.c_str());
     
-    // 총 사용자 수 업데이트
     auto room_list = room_manager_.getRoomList();
     size_t total_users = 0;
     for (const auto& room_info : room_list) {
@@ -298,17 +315,17 @@ void Session::handleRoomJoinRequest(const std::string& room_name) {
 void Session::handleRoomLeaveRequest() {
     if (!current_room_.empty()) {
         auto room = room_manager_.getRoom(current_room_);
-        if (room) {
-            room->leave(user_);
+        if (room && user_) {
+            auto user_ptr = std::make_shared<User>(user_->getSocket(), user_->getName());
+            room->leave(user_ptr);
         }
         current_room_.clear();
         
         Message response(MessageType::ROOM_LEAVE, "SERVER", "Left room");
-        boost::asio::write(user_->getSocket(), boost::asio::buffer(response.serialize()));
+        boost::asio::write(socket_, boost::asio::buffer(response.serialize()));
         
         add_log_message("User %s left room", username_.c_str());
         
-        // 총 사용자 수 업데이트
         auto room_list = room_manager_.getRoomList();
         size_t total_users = 0;
         for (const auto& room_info : room_list) {
@@ -318,7 +335,7 @@ void Session::handleRoomLeaveRequest() {
     }
 }
 
-// 소켓 매니저 생성자
+// SocketManager 클래스 구현
 SocketManager::SocketManager(boost::asio::io_context& io_context, const tcp::endpoint& endpoint)
     : acceptor_(io_context, endpoint) {
     

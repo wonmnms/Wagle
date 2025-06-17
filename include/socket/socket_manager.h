@@ -6,9 +6,16 @@
 #include <ctime>
 #include <cstdarg>
 #include <set>
-#include "chat/chat_room.h"
-#include "chat/chat_room_manager.h"
-#include "chat/user.h"
+#include <string>
+#include "chat/chat_room_manager.h"  // 실제 include 필요
+
+// Forward declarations
+namespace wagle {
+    class ChatRoom;
+    class User;
+    class Message;
+    enum class MessageType;
+}
 
 namespace wagle {
 
@@ -16,11 +23,7 @@ namespace wagle {
 extern WINDOW* main_win;
 extern WINDOW* status_win;
 extern WINDOW* log_win;
-
-// 총 접속 시도 수
 extern int total_connections;
-
-// 사용 중인 사용자 이름 목록
 extern std::set<std::string> active_usernames;
 
 // 함수 선언
@@ -28,6 +31,20 @@ void init_server_ui();
 void cleanup_server_ui();
 void update_status_window(size_t user_count);
 void add_log_message(const char* format, ...);
+
+// Session용 User 클래스
+class SessionUser : public std::enable_shared_from_this<SessionUser> {
+public:
+    using tcp = boost::asio::ip::tcp;
+
+    SessionUser(tcp::socket& socket, const std::string& name);
+    std::string getName() const;
+    tcp::socket& getSocket();
+
+private:
+    tcp::socket& socket_;
+    std::string name_;
+};
 
 // 세션 클래스
 class Session : public std::enable_shared_from_this<Session> {
@@ -50,8 +67,8 @@ private:
     boost::asio::streambuf buffer_;
     std::string username_;
     std::string client_address_;
-    std::string current_room_;  // 현재 입장한 채팅방
-    std::shared_ptr<User> user_;
+    std::string current_room_;
+    std::shared_ptr<SessionUser> user_;
 };
 
 // 소켓 매니저 클래스
@@ -66,7 +83,7 @@ private:
     void startAccept();
     
     tcp::acceptor acceptor_;
-    ChatRoomManager room_manager_;  // ChatRoom 대신 ChatRoomManager 사용
+    ChatRoomManager room_manager_;  // 멤버 변수로 사용하려면 실제 타입이 필요
 };
 
 } // namespace wagle

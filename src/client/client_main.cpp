@@ -501,18 +501,21 @@ private:
         
         if (data.empty()) return;
         
-        std::string data_copy = data;  // const 매개변수의 복사본 생성
-        size_t pos = 0;
+        std::string data_copy = data;
         std::string token;
         
-        while ((pos = data_copy.find(';')) != std::string::npos || !data_copy.substr(0).empty()) {
+        while (!data_copy.empty()) {
+            size_t pos = data_copy.find(';');
+            
             if (pos != std::string::npos) {
                 token = data_copy.substr(0, pos);
-                data_copy.erase(0, pos + 1);
+                data_copy = data_copy.substr(pos + 1);
             } else {
                 token = data_copy;
                 data_copy.clear();
             }
+            
+            if (token.empty()) continue;
             
             // room_name,user_count,is_default 형식 파싱
             size_t comma1 = token.find(',');
@@ -525,8 +528,6 @@ private:
                 
                 room_list.emplace_back(name, count, is_default);
             }
-            
-            if (data_copy.empty()) break;
         }
         
         // 채팅방 목록 화면 갱신
@@ -557,6 +558,18 @@ private:
     std::deque<wagle::Message> write_msgs_;
     bool connected_;
 };
+
+void reset_all_windows() {
+    if (chat_win) { delwin(chat_win); chat_win = nullptr; }
+    if (input_win) { delwin(input_win); input_win = nullptr; }
+    if (user_count_win) { delwin(user_count_win); user_count_win = nullptr; }
+    if (username_win) { delwin(username_win); username_win = nullptr; }
+    if (error_win) { delwin(error_win); error_win = nullptr; }
+    if (room_list_win) { delwin(room_list_win); room_list_win = nullptr; }
+    if (room_create_win) { delwin(room_create_win); room_create_win = nullptr; }
+    clear();
+    refresh();
+}
 
 int main(int argc, char* argv[]) {
     try {
@@ -628,124 +641,22 @@ int main(int argc, char* argv[]) {
             current_username = username;
         }
 
-        // 채팅방 목록 화면으로 전환
-        setup_room_list_screen();
-        client.request_room_list();
-        
-        // 채팅방 선택 루프
-        bool room_selected = false;
-        while (!room_selected) {
-            int ch = getch();
-            
-            switch (ch) {
-                case KEY_UP:
-                    if (selected_room_index > 0) {
-                        selected_room_index--;
-                        display_room_list();
-                    }
-                    break;
-                    
-                case KEY_DOWN:
-                    if (selected_room_index < (int)room_list.size() - 1) {
-                        selected_room_index++;
-                        display_room_list();
-                    }
-                    break;
-                    
-                case '\n':  // Enter key
-                case '\r':
-                    if (!room_list.empty() && selected_room_index < (int)room_list.size()) {
-                        client.join_room(room_list[selected_room_index].name);
-                        room_selected = true;
-                    }
-                    break;
-                    
-                case 'c':
-                case 'C':
-                    // 채팅방 생성 - 중괄호로 스코프 분리
-                    {
-                        setup_room_create_screen();
-                        wmove(room_create_win, 2, 13);
-                        echo();
-                        char room_name_buf[32] = {0};
-                        wgetnstr(room_create_win, room_name_buf, sizeof(room_name_buf) - 1);
-                        noecho();
-                        
-                        if (strlen(room_name_buf) > 0) {
-                            client.create_room(std::string(room_name_buf));
-                            std::this_thread::sleep_for(std::chrono::milliseconds(200));
-                            client.request_room_list();
-                        }
-                        
-                        delwin(room_create_win);
-                        room_create_win = nullptr;
-                        setup_room_list_screen();
-                        display_room_list();
-                    }
-                    break;
-                    
-                case 'q':
-                case 'Q':
-                    clear_all_windows();
-                    endwin();
-                    client.close();
-                    io_thread.join();
-                    return 0;
-                    
-                default:
-                    break;
-            }
-        }
-
-        // 채팅 화면으로 전환
-        init_ncurses();
-        
-        // 채팅 메시지 입력 루프
-        char input[512];  // 이모티콘을 위해 버퍼 크기 증가
-        bool return_to_rooms = false;
-        
+        // 메인 루프: 채팅방 선택과 채팅 화면을 반복
         while (true) {
-            wmove(input_win, 1, 2);
-            wclrtoeol(input_win);
-            box(input_win, 0, 0);
-            mvwprintw(input_win, 0, 2, " 💬 Input (/quit to exit, /rooms to return to room list) ");  // 이모티콘 추가
-            
-            set_focus_to_input();
-            
-            echo();
-            wgetnstr(input_win, input, sizeof(input) - 1);
-            noecho();
-            
-            std::string line(input);
-            
-            // 사용자 수 윈도우 다시 그리기
-            update_user_count(current_user_count);
-            
-            if (line == "/quit") {
-                break;
-            } else if (line == "/rooms") {
-                // 현재 채팅방에서 나가기
-                client.write(wagle::Message(wagle::MessageType::ROOM_LEAVE, current_username, ""));
-                return_to_rooms = true;
-                break;
-            } else {
-                // 채팅 메시지 전송 (이모티콘 포함)
-                client.write(wagle::Message(wagle::MessageType::CHAT_MSG, current_username, line));
-            }
-        }
-
-        // 채팅방 목록으로 돌아가기
-        if (return_to_rooms) {
-            // 약간의 지연을 두어 서버에서 퇴장 처리 완료 대기
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
             // 채팅방 목록 화면으로 전환
             setup_room_list_screen();
             client.request_room_list();
-            selected_room_index = 0;  // 선택 인덱스 초기화
-            // 채팅방 선택 루프로 다시 돌아가기
-            room_selected = false;
+            
+            // 잠시 대기하여 방 목록 로드 완료
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            
+            // 채팅방 선택 루프
+            bool room_selected = false;
+            selected_room_index = 0;
+            
             while (!room_selected) {
                 int ch = getch();
+                
                 switch (ch) {
                     case KEY_UP:
                         if (selected_room_index > 0) {
@@ -753,12 +664,14 @@ int main(int argc, char* argv[]) {
                             display_room_list();
                         }
                         break;
+                        
                     case KEY_DOWN:
                         if (selected_room_index < (int)room_list.size() - 1) {
                             selected_room_index++;
                             display_room_list();
                         }
                         break;
+                        
                     case '\n':  // Enter key
                     case '\r':
                         if (!room_list.empty() && selected_room_index < (int)room_list.size()) {
@@ -766,9 +679,10 @@ int main(int argc, char* argv[]) {
                             room_selected = true;
                         }
                         break;
+                        
                     case 'c':
                     case 'C':
-                        // 채팅방 생성 - 중괄호로 스코프 분리
+                        // 채팅방 생성
                         {
                             setup_room_create_screen();
                             wmove(room_create_win, 2, 13);
@@ -776,17 +690,21 @@ int main(int argc, char* argv[]) {
                             char room_name_buf[32] = {0};
                             wgetnstr(room_create_win, room_name_buf, sizeof(room_name_buf) - 1);
                             noecho();
+                            
                             if (strlen(room_name_buf) > 0) {
                                 client.create_room(std::string(room_name_buf));
                                 std::this_thread::sleep_for(std::chrono::milliseconds(200));
                                 client.request_room_list();
+                                std::this_thread::sleep_for(std::chrono::milliseconds(100));
                             }
+                            
                             delwin(room_create_win);
                             room_create_win = nullptr;
                             setup_room_list_screen();
                             display_room_list();
                         }
                         break;
+                        
                     case 'q':
                     case 'Q':
                         clear_all_windows();
@@ -794,13 +712,48 @@ int main(int argc, char* argv[]) {
                         client.close();
                         io_thread.join();
                         return 0;
+                        
                     default:
                         break;
                 }
             }
-            // 새로운 방 선택 후 다시 채팅 화면으로
+
+            // 채팅 화면으로 전환
             init_ncurses();
-            return_to_rooms = false;  // 플래그 리셋
+            
+            // 채팅 메시지 입력 루프
+            char input[512];
+            bool return_to_rooms = false;
+            
+            while (!return_to_rooms) {
+                wmove(input_win, 1, 2);
+                wclrtoeol(input_win);
+                box(input_win, 0, 0);
+                mvwprintw(input_win, 0, 2, " 💬 Input (/quit to exit, /rooms to return to room list) ");
+                
+                set_focus_to_input();
+                
+                echo();
+                wgetnstr(input_win, input, sizeof(input) - 1);
+                noecho();
+                
+                std::string line(input);
+                
+                update_user_count(current_user_count);
+                
+                if (line == "/quit") {
+                    clear_all_windows();
+                    endwin();
+                    client.close();
+                    io_thread.join();
+                    return 0;
+                } else if (line == "/rooms") {
+                    client.write(wagle::Message(wagle::MessageType::ROOM_LEAVE, current_username, ""));
+                    return_to_rooms = true;
+                } else {
+                    client.write(wagle::Message(wagle::MessageType::CHAT_MSG, current_username, line));
+                }
+            }
         }
 
         // 종료

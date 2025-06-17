@@ -60,14 +60,14 @@ void ChatRoom::join(std::shared_ptr<User> user) {
 
 void ChatRoom::leave(std::shared_ptr<User> user) {
     std::unique_lock<std::mutex> lock(chat_room_mutex);
-    
-    // 이미 채팅방에 없는 경우 무시
-    if (users_.find(user) == users_.end()) {
+    // 닉네임 기준으로 사용자 제거
+    auto it = std::find_if(users_.begin(), users_.end(), [&](const std::shared_ptr<User>& u) {
+        return u->getName() == user->getName();
+    });
+    if (it == users_.end()) {
         return;
     }
-    
-    // 사용자 제거
-    users_.erase(user);
+    users_.erase(it);
     lock.unlock();  // 락 해제 - broadcast가 내부적으로 락을 획득하므로
     
     // 사용자 퇴장 메시지
