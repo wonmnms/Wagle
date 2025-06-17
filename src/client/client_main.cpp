@@ -129,10 +129,11 @@ void init_ncurses() {
     box(input_win, 0, 0);
     mvwprintw(input_win, 0, 2, " Input ");
     
-    user_count_win = newwin(USER_COUNT_HEIGHT, USER_COUNT_WIDTH, 0, max_x - USER_COUNT_WIDTH);
+    user_count_win = newwin(USER_COUNT_HEIGHT + 1, USER_COUNT_WIDTH, 0, max_x - USER_COUNT_WIDTH);
     box(user_count_win, 0, 0);
-    mvwprintw(user_count_win, 0, 2, " Online Users ");
-    mvwprintw(user_count_win, 1, 2, "Count: 0");
+    mvwprintw(user_count_win, 0, 2, " Room Info ");
+    mvwprintw(user_count_win, 1, 2, "Room: %s", current_room.c_str());
+    mvwprintw(user_count_win, 2, 2, "Users: %d", current_user_count);
     
     refresh();
     wrefresh(chat_win);
@@ -299,14 +300,13 @@ void show_error_message(const std::string& message) {
 // 사용자 수 업데이트 함수
 void update_user_count(int count) {
     current_user_count = count;
-    
     if (user_count_win) {
         werase(user_count_win);
         box(user_count_win, 0, 0);
-        mvwprintw(user_count_win, 0, 2, " Online Users ");
-        mvwprintw(user_count_win, 1, 2, "Count: %d", count);
+        mvwprintw(user_count_win, 0, 2, " Room Info ");
+        mvwprintw(user_count_win, 1, 2, "Room: %s", current_room.c_str());
+        mvwprintw(user_count_win, 2, 2, "Users: %d", current_user_count);
         wrefresh(user_count_win);
-        
         set_focus_to_input();
     }
 }

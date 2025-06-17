@@ -20,6 +20,7 @@ std::string Message::serialize() const {
     std::stringstream ss;
     std::string safe_sender = sender_;
     std::string safe_content = content_;
+    std::string safe_room_name = room_name_;
     // 콜론을 유니코드 대체 문자(˸, UTF-8: \xCB\xB8)로 변경
     size_t pos = 0;
     while ((pos = safe_sender.find(':', pos)) != std::string::npos) {
@@ -31,28 +32,29 @@ std::string Message::serialize() const {
         safe_content.replace(pos, 1, "\xCB\xB8");
         pos += 2;
     }
+    pos = 0;
+    while ((pos = safe_room_name.find(':', pos)) != std::string::npos) {
+        safe_room_name.replace(pos, 1, "\xCB\xB8");
+        pos += 2;
+    }
     int type_int = static_cast<int>(type_);
-    ss << type_int << ":" << safe_sender << ":" << safe_content << "\n";
+    ss << type_int << ":" << safe_sender << ":" << safe_content << ":" << safe_room_name << "\n";
     return ss.str();
 }
 
 Message Message::deserialize(const std::string& data) {
     std::stringstream ss(data);
     std::string line;
-
     if (!std::getline(ss, line)) {
         return Message();
     }
-
     size_t first_colon = line.find(':');
     if (first_colon == std::string::npos) {
         return Message();
     }
-
     std::string type_str = line.substr(0, first_colon);
     int type_int = std::stoi(type_str);
     MessageType type = static_cast<MessageType>(type_int);
-
     size_t second_colon = line.find(':', first_colon + 1);
     if (second_colon == std::string::npos) {
         std::string content = line.substr(first_colon + 1);
@@ -64,24 +66,33 @@ Message Message::deserialize(const std::string& data) {
         }
         return Message(type, content);
     }
-
+    size_t third_colon = line.find(':', second_colon + 1);
     std::string sender = line.substr(first_colon + 1, second_colon - first_colon - 1);
-    std::string content = line.substr(second_colon + 1);
-    
+    std::string content, room_name;
+    if (third_colon == std::string::npos) {
+        content = line.substr(second_colon + 1);
+        room_name = "";
+    } else {
+        content = line.substr(second_colon + 1, third_colon - second_colon - 1);
+        room_name = line.substr(third_colon + 1);
+    }
     // 대체된 콜론 복원
     for (size_t i = 0; i < sender.length(); ++i) {
         if (sender[i] == '\xCB' && i+1 < sender.length() && sender[i+1] == '\xB8') {
             sender.replace(i, 2, ":");
         }
     }
-    
     for (size_t i = 0; i < content.length(); ++i) {
         if (content[i] == '\xCB' && i+1 < content.length() && content[i+1] == '\xB8') {
             content.replace(i, 2, ":");
         }
     }
-
-    return Message(type, sender, content);
+    for (size_t i = 0; i < room_name.length(); ++i) {
+        if (room_name[i] == '\xCB' && i+1 < room_name.length() && room_name[i+1] == '\xB8') {
+            room_name.replace(i, 2, ":");
+        }
+    }
+    return Message(type, sender, content, room_name);
 }
 
 std::size_t Message::utf8Length(const std::string& str) {
