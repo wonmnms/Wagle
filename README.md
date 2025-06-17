@@ -1,10 +1,10 @@
 # Wagle 💬
 
-Wagle 은 C++로 개발된 터미널 기반 다중 채팅방 애플리케이션입니다. ncurses 라이브러리와 Boost.Asio를 사용하여 간단하고 효율적인 실시간 채팅 환경을 제공합니다.
+Wagle은 C++로 개발된 터미널 기반 다중 채팅방 애플리케이션입니다. ncurses 라이브러리와 Boost.Asio를 사용하여 간단하고 효율적인 실시간 채팅 환경을 제공합니다.
 
 ## 주요 기능 ✨
 
-- **다중 채팅방 지원**: 여러 채팅방을 생성하고 자유롭게 이동
+- **다중 채팅방 지원**: 여러 채팅방 생성 및 자유로운 이동
 - **실시간 채팅**: 메시지 송수신 및 사용자 상태 업데이트
 - **사용자 관리**: 닉네임 중복 확인 및 사용자 수 표시
 - **직관적인 UI**: 방향키 네비게이션과 명령어 기반 조작
@@ -21,6 +21,12 @@ Wagle 은 C++로 개발된 터미널 기반 다중 채팅방 애플리케이션�
 - POSIX 호환 운영체제 (Linux, macOS)
 - UTF-8 지원 터미널
 
+### 의존성 설치 예시 (Ubuntu)
+```bash
+sudo apt update
+sudo apt install build-essential cmake libboost-all-dev libncursesw5-dev
+```
+
 ## 빌드 방법 🔨
 
 1. 저장소 복제:
@@ -28,23 +34,19 @@ Wagle 은 C++로 개발된 터미널 기반 다중 채팅방 애플리케이션�
    git clone https://github.com/wonmnms/Wagle.git
    cd Wagle
    ```
-
 2. 빌드 디렉토리 생성 및 이동:
    ```bash
    mkdir build
    cd build
    ```
-
 3. CMake를 사용하여 빌드 파일 생성:
    ```bash
    cmake ..
    ```
-
 4. 프로젝트 빌드:
    ```bash
    make
    ```
-
 5. 빌드 정리 (필요시):
    ```bash
    make clean          # 오브젝트 파일만 삭제
@@ -52,6 +54,8 @@ Wagle 은 C++로 개발된 터미널 기반 다중 채팅방 애플리케이션�
    ```
 
 ## 실행 방법 🚀
+
+빌드 후 실행 파일은 `build/` 디렉토리에 생성됩니다.
 
 ### 서버 실행
 ```bash
@@ -93,16 +97,28 @@ Wagle 은 C++로 개발된 터미널 기반 다중 채팅방 애플리케이션�
 
 ```
 Wagle/
-├── CMakeLists.txt               - CMake 빌드 설정
-├── include/                     - 헤더 파일
-│   ├── chat/                   - 채팅 관련 클래스
-│   │   ├── chat_room.h         - 단일 채팅방 관리
-│   │   ├── chat_room_manager.h - 다중 채팅방 관리
-│   │   └── user.h              - 사용자 클래스
-│   ├── protocol/               - 메시지 프로토콜
-│   │   └── message.h           - 메시지 클래스 (이모티콘 지원)
-│   └── socket/                 - 소켓 통신 관련 클래스
-│       └── socket_manager.h    - 서버 소켓 관리
-├── src/                        - 소스 파일
-│   ├── client/                 - 클라이언트 관련 코드
-│   │   └── client_main.cpp     - 클라이언트 메인 (이모티콘 UI
+├── CMakeLists.txt
+├── README.md
+├── include/
+│   ├── chat/
+│   │   ├── chat_room.h
+│   │   ├── chat_room_manager.h
+│   │   └── user.h
+│   ├── protocol/
+│   │   └── message.h
+│   └── socket/
+│       └── socket_manager.h
+├── src/
+│   ├── client/
+│   │   └── client_main.cpp
+│   ├── common/
+│   │   ├── chat_room.cpp
+│   │   ├── chat_room_manager.cpp
+│   │   ├── message.cpp
+│   │   └── user.cpp
+│   └── server/
+│       ├── server_main.cpp
+│       └── socket_manager.cpp
+```
+
+최신: 2025-06-17
