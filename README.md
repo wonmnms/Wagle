@@ -87,7 +87,9 @@ sudo apt install build-essential cmake libboost-all-dev libncursesw5-dev
 - **`/quit`**: 프로그램 종료
 
 ### 4. 이모티콘 사용 😊
-다양한 유니코드 이모티콘을 채팅에서 사용할 수 있습니다: "Win + ."
+다양한 유니코드 이모티콘을 채팅에서 사용할 수 있습니다:
+- **Windows**: Win + . 또는 Win + ;
+- **Ubuntu**: Ctrl + . ➡️ spcae 입력
 - 감정: 😀😊😂😢😡😍🤔
 - 액션: 👍👎👏🙌✋🤝
 - 객체: 💖❤️💯🔥⭐🎉
