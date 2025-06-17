@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <sstream>
-#include <cstring>
 
 namespace wagle {
 
@@ -19,45 +18,22 @@ Message::Message(MessageType type, const std::string& sender,
 
 std::string Message::serialize() const {
     std::stringstream ss;
-
-    // 메시지 형식: <타입>:<발신자>:<내용>:<방이름>
-    // 콜론은 직렬화에 사용되므로 특수 문자 이스케이프 처리
-    std::string safe_sender = escapeSpecialChars(sender_);
-    std::string safe_content = escapeSpecialChars(content_);
-    std::string safe_room_name = escapeSpecialChars(room_name_);
-
+    std::string safe_sender = sender_;
+    std::string safe_content = content_;
+    // 콜론을 유니코드 대체 문자(˸, UTF-8: \xCB\xB8)로 변경
+    size_t pos = 0;
+    while ((pos = safe_sender.find(':', pos)) != std::string::npos) {
+        safe_sender.replace(pos, 1, "\xCB\xB8");
+        pos += 2;
+    }
+    pos = 0;
+    while ((pos = safe_content.find(':', pos)) != std::string::npos) {
+        safe_content.replace(pos, 1, "\xCB\xB8");
+        pos += 2;
+    }
     int type_int = static_cast<int>(type_);
-    ss << type_int << ":" << safe_sender << ":" << safe_content << ":" << safe_room_name << "\n";
-
+    ss << type_int << ":" << safe_sender << ":" << safe_content << "\n";
     return ss.str();
-}
-
-// 직렬화 위해 콜론 등의 특수문자 이스케이프 처리
-std::string Message::escapeSpecialChars(const std::string& str) const {
-    std::string result = str;
-    size_t pos = 0;
-    
-    // 콜론을 유니코드 대체 문자로 변경 (예: ˸)
-    while ((pos = result.find(':', pos)) != std::string::npos) {
-        result.replace(pos, 1, "\xCB\xB8");
-        pos += 2; // 2바이트 유니코드 문자
-    }
-    
-    return result;
-}
-
-// 직렬화된 문자열에서 특수문자 원복
-std::string Message::unescapeSpecialChars(const std::string& str) const {
-    std::string result = str;
-    size_t pos = 0;
-    
-    // 유니코드 대체 문자를 콜론으로 복원
-    while ((pos = result.find("\xCB\xB8", pos)) != std::string::npos) {
-        result.replace(pos, 2, ":");
-        pos += 1; // 1바이트 문자로 변경됨
-    }
-    
-    return result;
 }
 
 Message Message::deserialize(const std::string& data) {
@@ -80,32 +56,32 @@ Message Message::deserialize(const std::string& data) {
     size_t second_colon = line.find(':', first_colon + 1);
     if (second_colon == std::string::npos) {
         std::string content = line.substr(first_colon + 1);
-        Message msg;
-        content = msg.unescapeSpecialChars(content);
+        // 대체된 콜론 복원
+        for (size_t i = 0; i < content.length(); ++i) {
+            if (content[i] == '\xCB' && i+1 < content.length() && content[i+1] == '\xB8') {
+                content.replace(i, 2, ":");
+            }
+        }
         return Message(type, content);
     }
 
-    size_t third_colon = line.find(':', second_colon + 1);
-    if (third_colon == std::string::npos) {
-        std::string sender = line.substr(first_colon + 1, second_colon - first_colon - 1);
-        std::string content = line.substr(second_colon + 1);
-        
-        Message msg;
-        sender = msg.unescapeSpecialChars(sender);
-        content = msg.unescapeSpecialChars(content);
-        return Message(type, sender, content);
+    std::string sender = line.substr(first_colon + 1, second_colon - first_colon - 1);
+    std::string content = line.substr(second_colon + 1);
+    
+    // 대체된 콜론 복원
+    for (size_t i = 0; i < sender.length(); ++i) {
+        if (sender[i] == '\xCB' && i+1 < sender.length() && sender[i+1] == '\xB8') {
+            sender.replace(i, 2, ":");
+        }
+    }
+    
+    for (size_t i = 0; i < content.length(); ++i) {
+        if (content[i] == '\xCB' && i+1 < content.length() && content[i+1] == '\xB8') {
+            content.replace(i, 2, ":");
+        }
     }
 
-    std::string sender = line.substr(first_colon + 1, second_colon - first_colon - 1);
-    std::string content = line.substr(second_colon + 1, third_colon - second_colon - 1);
-    std::string room_name = line.substr(third_colon + 1);
-    
-    Message msg;
-    sender = msg.unescapeSpecialChars(sender);
-    content = msg.unescapeSpecialChars(content);
-    room_name = msg.unescapeSpecialChars(room_name);
-
-    return Message(type, sender, content, room_name);
+    return Message(type, sender, content);
 }
 
 std::size_t Message::utf8Length(const std::string& str) {
@@ -119,10 +95,10 @@ std::size_t Message::utf8Length(const std::string& str) {
             // 2바이트 문자
             i += 2;
         } else if ((c & 0xF0) == 0xE0) {
-            // 3바이트 문자 (한글, 대부분의 기본 이모티콘 포함)
+            // 3바이트 문자 (한글 포함)
             i += 3;
         } else if ((c & 0xF8) == 0xF0) {
-            // 4바이트 문자 (확장 이모티콘, 특수 유니코드 문자 등)
+            // 4바이트 문자 (이모지 등)
             i += 4;
         } else {
             // 잘못된 UTF-8 시퀀스, 1바이트 건너뜀

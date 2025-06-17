@@ -7,7 +7,7 @@
 #include <cstdarg>
 #include <set>
 #include <string>
-#include "chat/chat_room_manager.h"  // 실제 include 필요
+#include "chat/chat_room_manager.h" // ChatRoomInfo 정의 포함
 
 // Forward declarations
 namespace wagle {
@@ -29,7 +29,7 @@ extern std::set<std::string> active_usernames;
 // 함수 선언
 void init_server_ui();
 void cleanup_server_ui();
-void update_status_window(size_t user_count);
+void update_status_window(size_t user_count, const std::vector<wagle::ChatRoomInfo>& room_list);
 void add_log_message(const char* format, ...);
 
 // Session용 User 클래스

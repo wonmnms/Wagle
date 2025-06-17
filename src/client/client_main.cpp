@@ -180,7 +180,7 @@ void setup_room_list_screen() {
     room_list_win = newwin(height, width, starty, startx);
     box(room_list_win, 0, 0);
     mvwprintw(room_list_win, 0, 2, " 💬 Chat Rooms ");  // 이모티콘 추가
-    mvwprintw(room_list_win, height - 2, 2, " ⬆️⬇️: Navigate | ⏎: Join | C: Create Room | Q: Quit ");  // 이모티콘 추가
+    mvwprintw(room_list_win, height - 2, 2, "↑/↓: Navigate | ⏎: Join | C: Create Room | R: Refresh | Q: Quit ");  // 이모티콘 추가
     
     wrefresh(room_list_win);
 }
@@ -656,7 +656,6 @@ int main(int argc, char* argv[]) {
             
             while (!room_selected) {
                 int ch = getch();
-                
                 switch (ch) {
                     case KEY_UP:
                         if (selected_room_index > 0) {
@@ -664,22 +663,25 @@ int main(int argc, char* argv[]) {
                             display_room_list();
                         }
                         break;
-                        
                     case KEY_DOWN:
                         if (selected_room_index < (int)room_list.size() - 1) {
                             selected_room_index++;
                             display_room_list();
                         }
                         break;
-                        
-                    case '\n':  // Enter key
+                    case 'r':
+                    case 'R':
+                        client.request_room_list();
+                        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                        display_room_list();
+                        break;
+                    case '\n':
                     case '\r':
                         if (!room_list.empty() && selected_room_index < (int)room_list.size()) {
                             client.join_room(room_list[selected_room_index].name);
                             room_selected = true;
                         }
                         break;
-                        
                     case 'c':
                     case 'C':
                         // 채팅방 생성

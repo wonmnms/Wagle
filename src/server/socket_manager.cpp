@@ -31,7 +31,6 @@ SessionUser::tcp::socket& SessionUser::getSocket() {
 // 서버 UI 함수들
 void init_server_ui() {
     setlocale(LC_ALL, "");
-    
     if (stdscr) {
         if (status_win) delwin(status_win);
         if (log_win) delwin(log_win);
@@ -39,28 +38,27 @@ void init_server_ui() {
         endwin();
         refresh();
     }
-    
     initscr();
     cbreak();
     noecho();
-    
     start_color();
     init_pair(1, COLOR_WHITE, COLOR_BLUE);
-    
     int max_y, max_x;
     getmaxyx(stdscr, max_y, max_x);
-    
     main_win = newwin(max_y, max_x, 0, 0);
     box(main_win, 0, 0);
     mvwprintw(main_win, 0, 2, " Wagle Chat Server ");
-    
-    status_win = newwin(4, 30, 2, max_x - 32);
+    // status_win을 우측에 길게 배치 (높이: max_y-4, 너비: max_x/2)
+    int status_height = max_y - 4;
+    int status_width = max_x / 2;
+    int status_starty = 2;
+    int status_startx = max_x - status_width - 2;
+    status_win = newwin(status_height, status_width, status_starty, status_startx);
     box(status_win, 0, 0);
     mvwprintw(status_win, 0, 2, " Server Status ");
-    
-    log_win = newwin(max_y - 4, max_x - 35, 2, 2);
+    // log_win은 좌측에 남은 공간에 배치
+    log_win = newwin(max_y - 4, max_x - status_width - 4, 2, 2);
     scrollok(log_win, TRUE);
-    
     refresh();
     wrefresh(main_win);
     wrefresh(status_win);
@@ -78,15 +76,22 @@ void cleanup_server_ui() {
     main_win = nullptr;
 }
 
-void update_status_window(size_t user_count) {
+void update_status_window(size_t user_count, const std::vector<wagle::ChatRoomInfo>& room_list) {
     if (!status_win) return;
-    
     werase(status_win);
     box(status_win, 0, 0);
     mvwprintw(status_win, 0, 2, " Server Status ");
     mvwprintw(status_win, 1, 2, "Online Users: %zu", user_count);
-    mvwprintw(status_win, 2, 2, "Total Connections: %d", total_connections);
-    
+    int line = 2;
+    mvwprintw(status_win, line++, 2, "Rooms:");
+    if (room_list.empty()) {
+        mvwprintw(status_win, line++, 4, "(No rooms)");
+    } else {
+        for (const auto& room_info : room_list) {
+            mvwprintw(status_win, line++, 4, "- %s (%zu)%s", room_info.name.c_str(), room_info.user_count, room_info.is_default ? " [default]" : "");
+            // status_win의 크기만큼 모두 출력 (line 제한 없음)
+        }
+    }
     wrefresh(status_win);
 }
 
@@ -240,7 +245,7 @@ void Session::readMessage() {
                 for (const auto& room_info : room_list) {
                     total_users += room_info.user_count;
                 }
-                update_status_window(total_users);
+                update_status_window(total_users, room_list);
             }
         });
 }
@@ -309,7 +314,7 @@ void Session::handleRoomJoinRequest(const std::string& room_name) {
     for (const auto& room_info : room_list) {
         total_users += room_info.user_count;
     }
-    update_status_window(total_users);
+    update_status_window(total_users, room_list);
 }
 
 void Session::handleRoomLeaveRequest() {
@@ -331,7 +336,7 @@ void Session::handleRoomLeaveRequest() {
         for (const auto& room_info : room_list) {
             total_users += room_info.user_count;
         }
-        update_status_window(total_users);
+        update_status_window(total_users, room_list);
     }
 }
 
@@ -343,7 +348,7 @@ SocketManager::SocketManager(boost::asio::io_context& io_context, const tcp::end
     
     init_server_ui();
     add_log_message("Server started on port %d", endpoint.port());
-    update_status_window(0);
+    update_status_window(0, {});
     
     startAccept();
 }
